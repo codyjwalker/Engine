@@ -23,6 +23,7 @@ public class DisplayManager {
 		try {
 			Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
 			Display.create(new PixelFormat(), attribs);
+			Display.setTitle("A Very Nice Display!");
 		} catch (LWJGLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
