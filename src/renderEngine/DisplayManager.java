@@ -21,11 +21,9 @@ public class DisplayManager {
 	public static void createDisplay() {
 
 		// Set attributes required for creating the display.
-		ContextAttribs attribs = new ContextAttribs(3, 2); // Version of OpenGL
-															// we are using.
-		// Want it to be forward compatible.
-		attribs.withForwardCompatible(true);
-		attribs.withProfileCore(true);
+		ContextAttribs attribs = new ContextAttribs(3, 2)
+				.withForwardCompatible(true)
+				.withProfileCore(true);
 
 		try {
 			// Sets size of the display.
