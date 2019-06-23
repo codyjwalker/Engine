@@ -6,6 +6,7 @@ import renderEngine.DisplayManager;
 import renderEngine.Loader;
 import renderEngine.RawModel;
 import renderEngine.Renderer;
+import shaders.StaticShader;
 
 /*
  * File:	MainGameLoop.java
@@ -18,9 +19,10 @@ public class MainGameLoop {
 		
 		// Open up the display.
 		DisplayManager.createDisplay();
-		// Create Loader & Renderer so that we can use them.
+		// Create Loader, Renderer, & Shader so that we can use them.
 		Loader loader = new Loader();
 		Renderer renderer = new Renderer();
+		StaticShader shader = new StaticShader();
 		
 		// Vertices of a simple rectangle.
 		float[] vertices = {
@@ -43,16 +45,21 @@ public class MainGameLoop {
 			// Prepare the Renderer each frame.
 			renderer.prepare();
 
-			// GAME LOGIC
+			// Start the shader program before rendering.
+			shader.start();
 			
 			// Render the model each frame.
 			renderer.render(model);
+			
+			// Stop shader after render finished.
+			shader.stop();
 			
 			// Update the display each frame.
 			DisplayManager.updateDisplay();
 		}
 		
-		// Cleanup loader upon closing.
+		// Cleanup shader & loader upon closing.
+		shader.cleanUp();
 		loader.cleanUp();
 		// Close display once loop is exited.
 		DisplayManager.closeDisplay();
