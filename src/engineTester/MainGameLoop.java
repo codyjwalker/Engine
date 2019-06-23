@@ -24,17 +24,19 @@ public class MainGameLoop {
 		
 		// Vertices of a simple rectangle.
 		float[] vertices = {
-				// Bottom Left
-				-0.5f, 0.5f, 0f,
-				-0.5f, -0.5f, 0f,
-				0.5f, -0.5f, 0f,
-				// Top Right
-				0.5f, -0.5f, 0f,
-				0.5f, 0.5f, 0f,
-				-0.5f, 0.5f, 0f
+				-0.5f, 0.5f, 0f,	// v0
+				-0.5f, -0.5f, 0f,	// v1
+				0.5f, -0.5f, 0f,	// v2
+				0.5f, 0.5f, 0f,		// v3
 		};
 		
-		RawModel model = loader.loadToVAO(vertices);
+		// Indices for Index Buffer.
+		int[] indices = {
+				0,1,3,	// Top left triangle.
+				3,1,2	// Bottom right triangle.
+		};
+		
+		RawModel model = loader.loadToVAO(vertices, indices);
 		
 		// The actual game loop.  Exit when user clicks 'x' button.
 		while(!Display.isCloseRequested()) {

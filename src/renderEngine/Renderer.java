@@ -13,8 +13,8 @@ public class Renderer {
 	// Called once every frame to prepare OpenGL to render the game.
 	public void prepare() {
 		// Clear color from the last frame.
-		GL11.glClearColor(1,  0,  0,  1);
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+		GL11.glClearColor(1,  0,  0,  1);
 	}
 	
 	// Renders the raw model.
@@ -24,8 +24,8 @@ public class Renderer {
 		// Activate the Attribute List in which our data is stored.
 		GL20.glEnableVertexAttribArray(0);
 		// Render the model!
-		GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, model.getVertexCount());
-		// Disable the Attribute List and unbind the VAO now that we're done.
+		GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+		// Disable the Attribute List and un-bind the VAO now that we're done.
 		GL20.glDisableVertexAttribArray(0);
 		GL30.glBindVertexArray(0);
 	}

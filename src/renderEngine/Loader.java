@@ -1,6 +1,7 @@
 package renderEngine;
 
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,14 +24,15 @@ public class Loader {
 	
 	// Takes in positions of the model's vertices, loads this data into
 	// a VAO, and then returns information about the VAO as a RawModel object.
-	public RawModel loadToVAO(float[] positions) {
+	public RawModel loadToVAO(float[] positions, int[] indices) {
 		int vaoID = createVAO();
+		bindIndicesBuffer(indices);
 		// Store positional data into the first (0) attribute list of the VAO.
 		storeDataInAttributeList(0, positions);
 		// Unbind VAO when finished with it.
 		unbindVAO();
 		// Return the data we created about the VAO.
-		return new RawModel(vaoID, positions.length / 3);
+		return new RawModel(vaoID, indices.length);
 	}
 	
 	// Called upon closing of engine to delete the VAOs & VBOs we created.
@@ -79,6 +81,18 @@ public class Loader {
 		GL30.glBindVertexArray(0);
 	}
 	
+	// Loads up index buffer and binds it to VAO.
+	private void bindIndicesBuffer(int[] indices) {
+		// Create empty VBO, add to list of VBOs, & bind it.
+		int vboID = GL15.glGenBuffers();
+		VBOs.add(vboID);
+		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, vboID);
+		// Convert indices into IntBuffer.
+		IntBuffer buffer = storeDataInIntBuffer(indices);
+		// Store into VBO.
+		GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
+	}
+	
 	// Converts float-array of data into a FloatBuffer.
 	private FloatBuffer storeDataInFloatBuffer(float[] data) {
 		// First create empty FloatBuffer.
@@ -87,7 +101,15 @@ public class Loader {
 		buffer.put(data);
 		// Prepare the buffer to be read from by 'flipping' it.
 		buffer.flip();
-		// Return the buffer so that we can use it to store into VBO.
+		return buffer;
+	}
+
+	// Stores indices into IntBuffer.
+	private IntBuffer storeDataInIntBuffer(int[] data) {
+		// Create empty IntBuffer & put data into the buffer.
+		IntBuffer buffer = BufferUtils.createIntBuffer(data.length);
+		buffer.put(data);
+		buffer.flip();
 		return buffer;
 	}
 
