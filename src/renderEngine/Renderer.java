@@ -4,9 +4,13 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
+import org.lwjgl.util.vector.Matrix4f;
 
+import entities.Entity;
 import models.RawModel;
 import models.TexturedModel;
+import shaders.StaticShader;
+import toolbox.Maths;
 
 /*
  * File:	Renderer.java
@@ -22,13 +26,18 @@ public class Renderer {
 	}
 
 	// Renders the raw model.
-	public void render(TexturedModel texturedModel) {
-		// Extract RawModel out of TexturedModel.
+	public void render(Entity entity, StaticShader shader) {
+		// Extract RawModel out of TexturedModel out of Entity.
+		TexturedModel texturedModel = entity.getModel();
 		RawModel model = texturedModel.getRawModel();
 		GL30.glBindVertexArray(model.getVaoID());
 		// Activate the Attribute Lists in which our data is stored.
 		GL20.glEnableVertexAttribArray(0);
 		GL20.glEnableVertexAttribArray(1);
+		// Load up entity's transformation to vertex shader.
+		Matrix4f transformationMatrix = Maths.createTransformationMatrix(entity.getPosition(), entity.getRotX(),
+				entity.getRotY(), entity.getRotZ(), entity.getScale());
+		shader.loadTransformationMatrix(transformationMatrix);
 		// Tell OpenGL which texture we would like to render.
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texturedModel.getTexture().getID());

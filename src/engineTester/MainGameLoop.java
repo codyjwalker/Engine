@@ -1,7 +1,9 @@
 package engineTester;
 
 import org.lwjgl.opengl.Display;
+import org.lwjgl.util.vector.Vector3f;
 
+import entities.Entity;
 import models.RawModel;
 import models.TexturedModel;
 import renderEngine.DisplayManager;
@@ -49,6 +51,7 @@ public class MainGameLoop {
 		RawModel model = loader.loadToVAO(vertices, textureCoordinates, indices);
 		ModelTexture texture = new ModelTexture(loader.loadTexture("sassy"));
 		TexturedModel texturedModel = new TexturedModel(model, texture);
+		Entity entity = new Entity(texturedModel, new Vector3f(-1, 0, 0), 0, 0, 0, 1);
 
 		// The actual game loop. Exit when user clicks 'x' button.
 		while (!Display.isCloseRequested()) {
@@ -59,7 +62,7 @@ public class MainGameLoop {
 			shader.start();
 
 			// Render the model each frame.
-			renderer.render(texturedModel);
+			renderer.render(entity, shader);
 
 			// Stop shader after render finished.
 			shader.stop();
