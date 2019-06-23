@@ -1,7 +1,7 @@
 package shaders;
 
 public class StaticShader extends ShaderProgram {
-	
+
 	private static final String VERTEX_FILE = "src/shaders/vertexShader";
 	private static final String FRAGMENT_FILE = "src/shaders/fragmentShader";
 
@@ -11,7 +11,8 @@ public class StaticShader extends ShaderProgram {
 
 	@Override
 	protected void bindAttributes() {
-			super.bindAttribute(0, "position");
+		super.bindAttribute(0, "position");
+		super.bindAttribute(1, "texture_coordinates");
 	}
 
 }

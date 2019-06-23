@@ -13,17 +13,16 @@ import org.lwjgl.opengl.GL20;
  * 			methods every shader program will have.
  */
 public abstract class ShaderProgram {
-	
+
 	private int programID;
 	private int vertexShaderID;
 	private int fragmentShaderID;
-	
-	
+
 	public ShaderProgram(String vertexFile, String fragmentFile) {
 		// First load up shader files.
 		vertexShaderID = loadShader(vertexFile, GL20.GL_VERTEX_SHADER);
 		fragmentShaderID = loadShader(fragmentFile, GL20.GL_FRAGMENT_SHADER);
-		// Create a new program.  Ties together vertex & fragment shaders.
+		// Create a new program. Ties together vertex & fragment shaders.
 		programID = GL20.glCreateProgram();
 		// Attach shaders to program.
 		GL20.glAttachShader(programID, vertexShaderID);
@@ -33,17 +32,17 @@ public abstract class ShaderProgram {
 		GL20.glValidateProgram(programID);
 		bindAttributes();
 	}
-	
+
 	// Starts the program.
 	public void start() {
 		GL20.glUseProgram(programID);
 	}
-	
+
 	// Stops the program.
 	public void stop() {
 		GL20.glUseProgram(0);
 	}
-	
+
 	// Cleanup for memory management.
 	public void cleanUp() {
 		stop();
@@ -53,17 +52,17 @@ public abstract class ShaderProgram {
 		GL20.glDeleteShader(fragmentShaderID);
 		GL20.glDeleteProgram(programID);
 	}
-	
+
 	// When we create implementation of this class must have this to link up
 	// inputs to shader programs to one of attributes of VAO we pass in.
 	protected abstract void bindAttributes();
-	
+
 	// Method to bind an attribute.
 	protected void bindAttribute(int attribute, String variableName) {
 		GL20.glBindAttribLocation(programID, attribute, variableName);
 	}
-	
-	// Loads up shader source code files.  Opens up source code files,
+
+	// Loads up shader source code files. Opens up source code files,
 	// reads in all the lines, and connects them all together in one long sting.
 	// Then, create new vertex or fragment shader, depending on value of 'type',
 	// attaches string of source code to it, compiles it, and lastly prints any

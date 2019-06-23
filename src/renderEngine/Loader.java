@@ -1,5 +1,8 @@
 package renderEngine;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
@@ -10,6 +13,10 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureLoader;
+
+import models.RawModel;
 
 /*
  * File:	Loader.java
@@ -17,34 +24,55 @@ import org.lwjgl.opengl.GL30;
  * 			the model in a VAO.
  */
 public class Loader {
-	
-	// Lists storing IDs of VAOs and VBOs to be used for cleanup.
+
+	// Lists storing IDs of VAOs, VBOs, & textures. to be used for cleanup.
 	private List<Integer> VAOs = new ArrayList<Integer>();
 	private List<Integer> VBOs = new ArrayList<Integer>();
-	
+	private List<Integer> Textures = new ArrayList<Integer>();
+
 	// Takes in positions of the model's vertices, loads this data into
 	// a VAO, and then returns information about the VAO as a RawModel object.
-	public RawModel loadToVAO(float[] positions, int[] indices) {
+	public RawModel loadToVAO(float[] positions, float[] textureCoordinates, int[] indices) {
 		int vaoID = createVAO();
 		bindIndicesBuffer(indices);
 		// Store positional data into the first (0) attribute list of the VAO.
-		storeDataInAttributeList(0, positions);
+		storeDataInAttributeList(0, 3, positions);
+		storeDataInAttributeList(1, 2, textureCoordinates);
 		// Unbind VAO when finished with it.
 		unbindVAO();
 		// Return the data we created about the VAO.
 		return new RawModel(vaoID, indices.length);
 	}
 	
-	// Called upon closing of engine to delete the VAOs & VBOs we created.
+	// Loads a texture into OpenGl.
+	public int loadTexture(String fileName) {
+		Texture texture = null;
+		try {
+			texture = TextureLoader.getTexture("PNG", new FileInputStream("res/"+fileName+".png"));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		int textureID = texture.getTextureID();
+		Textures.add(textureID);
+		return textureID;
+		
+	}
+
+	// Called upon closing of engine to delete the VAOs, VBOs, & textures we created.
 	public void cleanUp() {
-		for (int vao:VAOs) {
+		for (int vao : VAOs) {
 			GL30.glDeleteVertexArrays(vao);
 		}
-		for (int vbo:VBOs) {
+		for (int vbo : VBOs) {
 			GL15.glDeleteBuffers(vbo);
 		}
+		for (int texture : Textures) {
+			GL11.glDeleteTextures(texture);
+		}
 	}
-	
+
 	// Creates a new, empty VAO, returning its ID.
 	private int createVAO() {
 		// Create the empty VAO & store its ID.
@@ -56,9 +84,9 @@ public class Loader {
 		// Return the VAOs ID.
 		return vaoID;
 	}
-	
+
 	// Stores the data into one of the attribute lists of the VAO.
-	private void storeDataInAttributeList(int attributeNumber, float[] data) {
+	private void storeDataInAttributeList(int attributeNumber, int coordinateSize, float[] data) {
 		// Must store data in Attribute List as VBO, so create an empty one.
 		int vboID = GL15.glGenBuffers();
 		// Add it to our list so we can delete it later.
@@ -70,17 +98,17 @@ public class Loader {
 		// Store FloatBuffer with our data into VBO.
 		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
 		// Put VBO into one of the VAO's Attribute Lists.
-		GL20.glVertexAttribPointer(attributeNumber, 3, GL11.GL_FLOAT, false, 0, 0);
+		GL20.glVertexAttribPointer(attributeNumber, coordinateSize, GL11.GL_FLOAT, false, 0, 0);
 		// Unbind VBO.
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 	}
-	
+
 	// Unbinds the VAO.
 	private void unbindVAO() {
 		// Put in '0' instead of vaoID to un-bind.
 		GL30.glBindVertexArray(0);
 	}
-	
+
 	// Loads up index buffer and binds it to VAO.
 	private void bindIndicesBuffer(int[] indices) {
 		// Create empty VBO, add to list of VBOs, & bind it.
@@ -92,7 +120,7 @@ public class Loader {
 		// Store into VBO.
 		GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
 	}
-	
+
 	// Converts float-array of data into a FloatBuffer.
 	private FloatBuffer storeDataInFloatBuffer(float[] data) {
 		// First create empty FloatBuffer.
