@@ -9,6 +9,7 @@ import models.RawModel;
 import models.TexturedModel;
 import renderEngine.DisplayManager;
 import renderEngine.Loader;
+import renderEngine.OBJLoader;
 import renderEngine.Renderer;
 import shaders.StaticShader;
 import textures.ModelTexture;
@@ -24,125 +25,26 @@ public class MainGameLoop {
 
 		// Open up the display.
 		DisplayManager.createDisplay();
+
 		// Create Loader, Renderer, & Shader so that we can use them.
 		Loader loader = new Loader();
 		StaticShader shader = new StaticShader();
 		Renderer renderer = new Renderer(shader);
 
-		/*
-		// Vertices of a simple rectangle.
-		float[] vertices = { -0.5f, 0.5f, 0f, // v0
-				-0.5f, -0.5f, 0f, // v1
-				0.5f, -0.5f, 0f, // v2
-				0.5f, 0.5f, 0f, // v3
-		};
 
-		// Indices for Index Buffer of the simple rectangle.
-		int[] indices = { 0, 1, 3, // Top left triangle.
-				3, 1, 2 // Bottom right triangle.
-		};
-		
-		// Texture uv coordinates for one sassy texture.
-		float[] textureCoordinates = {
-				0,0,	// v0
-				0,1,	// v1
-				1,1,	// v2
-				1,0		// v3
-		};
-		*/
-		
-
-
-		float[] vertices = {			
-				-0.5f,0.5f,-0.5f,	
-				-0.5f,-0.5f,-0.5f,	
-				0.5f,-0.5f,-0.5f,	
-				0.5f,0.5f,-0.5f,		
-				
-				-0.5f,0.5f,0.5f,	
-				-0.5f,-0.5f,0.5f,	
-				0.5f,-0.5f,0.5f,	
-				0.5f,0.5f,0.5f,
-				
-				0.5f,0.5f,-0.5f,	
-				0.5f,-0.5f,-0.5f,	
-				0.5f,-0.5f,0.5f,	
-				0.5f,0.5f,0.5f,
-				
-				-0.5f,0.5f,-0.5f,	
-				-0.5f,-0.5f,-0.5f,	
-				-0.5f,-0.5f,0.5f,	
-				-0.5f,0.5f,0.5f,
-				
-				-0.5f,0.5f,0.5f,
-				-0.5f,0.5f,-0.5f,
-				0.5f,0.5f,-0.5f,
-				0.5f,0.5f,0.5f,
-				
-				-0.5f,-0.5f,0.5f,
-				-0.5f,-0.5f,-0.5f,
-				0.5f,-0.5f,-0.5f,
-				0.5f,-0.5f,0.5f
-				
-		};
-		
-		float[] textureCoordinates = {
-				
-				0,0,
-				0,1,
-				1,1,
-				1,0,			
-				0,0,
-				0,1,
-				1,1,
-				1,0,			
-				0,0,
-				0,1,
-				1,1,
-				1,0,
-				0,0,
-				0,1,
-				1,1,
-				1,0,
-				0,0,
-				0,1,
-				1,1,
-				1,0,
-				0,0,
-				0,1,
-				1,1,
-				1,0
-
-				
-		};
-		
-		int[] indices = {
-				0,1,3,	
-				3,1,2,	
-				4,5,7,
-				7,5,6,
-				8,9,11,
-				11,9,10,
-				12,13,15,
-				15,13,14,	
-				16,17,19,
-				19,17,18,
-				20,21,23,
-				23,21,22
-
-		};
-
-
-
-		RawModel model = loader.loadToVAO(vertices, textureCoordinates, indices);
-		ModelTexture texture = new ModelTexture(loader.loadTexture("sassy"));
+		// Load up RawModel & ModelTexture.
+		RawModel model = OBJLoader.loadObjModel("stall", loader);
+		ModelTexture texture = new ModelTexture(loader.loadTexture("stallTexture"));
+		// Make TexturedModel out of model & texture.
 		TexturedModel texturedModel = new TexturedModel(model, texture);
-		Entity entity = new Entity(texturedModel, new Vector3f(0, 0, -5), 0, 0, 0, 1);
+		// Make Entity with TexturedModel.
+		Entity entity = new Entity(texturedModel, new Vector3f(0, -2, -20), 0, 0, 0, 1);
+
 		Camera camera = new Camera();
 
 		// The actual game loop. Exit when user clicks 'x' button.
 		while (!Display.isCloseRequested()) {
-			entity.increaseRotation(1, 1, 0);
+			entity.increaseRotation(0, 0.3f, 0);
 			camera.move();
 			// Prepare the Renderer each frame.
 			renderer.prepare();
