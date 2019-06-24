@@ -31,15 +31,14 @@ public class MainGameLoop {
 		StaticShader shader = new StaticShader();
 		Renderer renderer = new Renderer(shader);
 
-
 		// Load up RawModel & ModelTexture.
-		RawModel model = OBJLoader.loadObjModel("stall", loader);
-		ModelTexture texture = new ModelTexture(loader.loadTexture("stallTexture"));
+		RawModel model = OBJLoader.loadObjModel("Ball", loader);
+		ModelTexture texture = new ModelTexture(loader.loadTexture("sassy"));
 		// Make TexturedModel out of model & texture.
 		TexturedModel texturedModel = new TexturedModel(model, texture);
 		// Make Entity with TexturedModel.
-		Entity entity = new Entity(texturedModel, new Vector3f(0, -2, -20), 0, 0, 0, 1);
-
+		Entity entity = new Entity(texturedModel, new Vector3f(0, -0.2f, -10), 0, 0, 0, 1);
+		// Create camera.
 		Camera camera = new Camera();
 
 		// The actual game loop. Exit when user clicks 'x' button.
