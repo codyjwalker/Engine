@@ -32,16 +32,16 @@ public class MainGameLoop {
 		StaticShader shader = new StaticShader();
 		Renderer renderer = new Renderer(shader);
 
-		// Load up RawModel & ModelTexture.
-		RawModel model = OBJLoader.loadObjModel("DragonBlender", loader);
+		// Load up RawModel & ModelTexture, make texturedModel, & extract its texture.
+		RawModel rawModel = OBJLoader.loadObjModel("DragonBlender", loader);
 		ModelTexture texture = new ModelTexture(loader.loadTexture("white"));
-		// Make TexturedModel out of model & texture.
-		TexturedModel texturedModel = new TexturedModel(model, texture);
+		TexturedModel texturedModel = new TexturedModel(rawModel, texture);
 		ModelTexture modelTexture = texturedModel.getTexture();
+		// Set damper and reflectivity values.
 		modelTexture.setShineDamper(10);
 		modelTexture.setReflectivity(1);
 		// Make Entity with TexturedModel.
-		Entity entity = new Entity(texturedModel, new Vector3f(0, 0, -25), 0, 0, 0, 1);
+		Entity entity = new Entity(texturedModel, new Vector3f(0, -4, -25), 0, 0, 0, 1);
 		// Make lightsource.
 		Light light = new Light(new Vector3f(0, 0, -20), new Vector3f(1, 1, 1));
 		// Create camera.
