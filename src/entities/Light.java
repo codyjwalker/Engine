@@ -6,7 +6,7 @@ import org.lwjgl.util.vector.Vector3f;
  * Purpose:	Represents a light object.
  */
 public class Light {
-	
+
 	private Vector3f position;
 	private Vector3f color;
 
@@ -30,7 +30,5 @@ public class Light {
 	public void setColor(Vector3f color) {
 		this.color = color;
 	}
-	
-	
 
 }

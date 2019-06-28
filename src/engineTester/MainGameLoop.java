@@ -37,6 +37,9 @@ public class MainGameLoop {
 		ModelTexture texture = new ModelTexture(loader.loadTexture("white"));
 		// Make TexturedModel out of model & texture.
 		TexturedModel texturedModel = new TexturedModel(model, texture);
+		ModelTexture modelTexture = texturedModel.getTexture();
+		modelTexture.setShineDamper(10);
+		modelTexture.setReflectivity(1);
 		// Make Entity with TexturedModel.
 		Entity entity = new Entity(texturedModel, new Vector3f(0, 0, -25), 0, 0, 0, 1);
 		// Make lightsource.
@@ -53,10 +56,10 @@ public class MainGameLoop {
 
 			// Start the shader program before rendering.
 			shader.start();
-			
+
 			// Load light each frame (so that light can be moved).
 			shader.loadLight(light);
-			
+
 			// Load camera into shader.
 			shader.loadViewMatrix(camera);
 
