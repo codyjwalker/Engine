@@ -2,12 +2,14 @@
 
 in vec3 position;
 in vec2 texture_coordinates;
+in vec3 normal;
 
 out vec2 pass_texture_coordinates;
 
 uniform mat4 transformation_matrix;
 uniform mat4 projection_matrix;
 uniform mat4 view_matrix;
+uniform vec3 light_position;
 
 void main(void) {
 	

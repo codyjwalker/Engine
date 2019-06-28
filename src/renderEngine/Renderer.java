@@ -39,7 +39,7 @@ public class Renderer {
 		// Clear color from the last frame.
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 		// Set color of background.
-		GL11.glClearColor(0, 0.3f, 0.1f, 1);
+		GL11.glClearColor(0, 0, 0, 1);
 	}
 
 	// Renders the raw model.
@@ -51,6 +51,7 @@ public class Renderer {
 		// Activate the Attribute Lists in which our data is stored.
 		GL20.glEnableVertexAttribArray(0);
 		GL20.glEnableVertexAttribArray(1);
+		GL20.glEnableVertexAttribArray(2);
 		// Load up entity's transformation to vertex shader.
 		Matrix4f transformationMatrix = Maths.createTransformationMatrix(entity.getPosition(), entity.getRotX(),
 				entity.getRotY(), entity.getRotZ(), entity.getScale());
@@ -63,6 +64,7 @@ public class Renderer {
 		// Disable the Attribute Lists and un-bind the VAO now that we're done.
 		GL20.glDisableVertexAttribArray(0);
 		GL20.glDisableVertexAttribArray(1);
+		GL20.glDisableVertexAttribArray(2);
 		GL30.glBindVertexArray(0);
 	}
 	

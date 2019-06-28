@@ -5,6 +5,7 @@ in vec2 pass_texture_coordinates;
 out vec4 out_color;
 
 uniform sampler2D texture_sampler;
+uniform vec3 light_color;
 
 void main(void) {
 
