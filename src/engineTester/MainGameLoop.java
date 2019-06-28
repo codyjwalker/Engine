@@ -10,6 +10,7 @@ import models.RawModel;
 import models.TexturedModel;
 import renderEngine.DisplayManager;
 import renderEngine.Loader;
+import renderEngine.MasterRenderer;
 import renderEngine.OBJLoader;
 import renderEngine.Renderer;
 import shaders.StaticShader;
@@ -27,10 +28,8 @@ public class MainGameLoop {
 		// Open up the display.
 		DisplayManager.createDisplay();
 
-		// Create Loader, Renderer, & Shader so that we can use them.
+		// Create Loader.
 		Loader loader = new Loader();
-		StaticShader shader = new StaticShader();
-		Renderer renderer = new Renderer(shader);
 
 		// Load up RawModel & ModelTexture, make texturedModel, & extract its texture.
 		RawModel rawModel = OBJLoader.loadObjModel("DragonBlender", loader);
@@ -47,34 +46,29 @@ public class MainGameLoop {
 		// Create camera.
 		Camera camera = new Camera();
 
+		// Create the MasterRenderer
+		MasterRenderer renderer = new MasterRenderer();
+
 		// The actual game loop. Exit when user clicks 'x' button.
 		while (!Display.isCloseRequested()) {
 			entity.increaseRotation(0, 0.3f, 0);
 			camera.move();
-			// Prepare the Renderer each frame.
-			renderer.prepare();
 
-			// Start the shader program before rendering.
-			shader.start();
+			/*
+			 * // For each entity, for each frame, process the entity. for (Entity entity :
+			 * entities) { renderer.processEntity(entity); }
+			 */
+			renderer.processEntity(entity);
 
-			// Load light each frame (so that light can be moved).
-			shader.loadLight(light);
-
-			// Load camera into shader.
-			shader.loadViewMatrix(camera);
-
-			// Render the model each frame.
-			renderer.render(entity, shader);
-
-			// Stop shader after render finished.
-			shader.stop();
+			// Render each frame.
+			renderer.render(light, camera);
 
 			// Update the display each frame.
 			DisplayManager.updateDisplay();
 		}
 
-		// Cleanup shader & loader upon closing.
-		shader.cleanUp();
+		// Cleanup loader & renderer upon closing.
+		renderer.cleanUp();
 		loader.cleanUp();
 		// Close display once loop is exited.
 		DisplayManager.closeDisplay();
