@@ -5,6 +5,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import entities.Camera;
 import entities.Entity;
+import entities.Light;
 import models.RawModel;
 import models.TexturedModel;
 import renderEngine.DisplayManager;
@@ -32,12 +33,14 @@ public class MainGameLoop {
 		Renderer renderer = new Renderer(shader);
 
 		// Load up RawModel & ModelTexture.
-		RawModel model = OBJLoader.loadObjModel("Ball", loader);
-		ModelTexture texture = new ModelTexture(loader.loadTexture("sassy"));
+		RawModel model = OBJLoader.loadObjModel("DragonBlender", loader);
+		ModelTexture texture = new ModelTexture(loader.loadTexture("white"));
 		// Make TexturedModel out of model & texture.
 		TexturedModel texturedModel = new TexturedModel(model, texture);
 		// Make Entity with TexturedModel.
-		Entity entity = new Entity(texturedModel, new Vector3f(0, -0.2f, -10), 0, 0, 0, 1);
+		Entity entity = new Entity(texturedModel, new Vector3f(0, 0, -25), 0, 0, 0, 1);
+		// Make lightsource.
+		Light light = new Light(new Vector3f(0, 0, -20), new Vector3f(1, 1, 1));
 		// Create camera.
 		Camera camera = new Camera();
 
@@ -50,6 +53,9 @@ public class MainGameLoop {
 
 			// Start the shader program before rendering.
 			shader.start();
+			
+			// Load light each frame (so that light can be moved).
+			shader.loadLight(light);
 			
 			// Load camera into shader.
 			shader.loadViewMatrix(camera);

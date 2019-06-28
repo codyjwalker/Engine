@@ -39,7 +39,7 @@ public class Renderer {
 		// Clear color from the last frame.
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 		// Set color of background.
-		GL11.glClearColor(0, 0, 0, 1);
+		GL11.glClearColor(0.5f, 0.1f, 0.1f, 1);
 	}
 
 	// Renders the raw model.
