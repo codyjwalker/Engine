@@ -12,6 +12,7 @@ import renderEngine.DisplayManager;
 import renderEngine.Loader;
 import renderEngine.MasterRenderer;
 import renderEngine.OBJLoader;
+import terrains.Terrain;
 import textures.ModelTexture;
 
 /*
@@ -29,20 +30,27 @@ public class MainGameLoop {
 	private static Light light;
 	private static Camera camera;
 	private static MasterRenderer renderer;
+	private static Terrain terrain, terrain2;
 
 	public static void main(String[] args) {
 		init();
-		
+
 		// The actual game loop. Exit when user clicks 'x' button.
 		while (!Display.isCloseRequested()) {
+			// TODO: FIGURE OUT IF THIS LINE SHOULD BE MOVED (PROBABLY SHOULD WITH MORE
+			// ENTITIES).
 			entity.increaseRotation(0, 0.3f, 0);
 			camera.move();
 
-			// For each entity, for each frame, process the entity. 
-			//for (Entity entity : entities) {
-			//	renderer.processEntity(entity);
-			//}
+			renderer.processTerrain(terrain);
+			renderer.processTerrain(terrain2);
 
+			// For each entity, for each frame, process the entity.
+			// for (Entity entity : entities) {
+			// renderer.processEntity(entity);
+			// }
+
+			// Or, for now, for each frame, process THE entity.
 			renderer.processEntity(entity);
 
 			// Render each frame.
@@ -62,7 +70,7 @@ public class MainGameLoop {
 		// Create Loader.
 		loader = new Loader();
 
-		// Load up RawModel & ModelTexture, make texturedModel, & extract its texture.
+		// Load up RawModel & ModelTexture, create texturedModel, & extract its texture.
 		rawModel = OBJLoader.loadObjModel("DragonBlender", loader);
 		texture = new ModelTexture(loader.loadTexture("white"));
 		texturedModel = new TexturedModel(rawModel, texture);
@@ -72,11 +80,15 @@ public class MainGameLoop {
 		modelTexture.setShineDamper(10);
 		modelTexture.setReflectivity(1);
 
-		// Make Entity with TexturedModel.
+		// Create Entity with TexturedModel.
 		entity = new Entity(texturedModel, new Vector3f(0, -4, -25), 0, 0, 0, 1);
 
-		// Make lightsource.
+		// Create lightsource.
 		light = new Light(new Vector3f(0, 0, -20), new Vector3f(1, 1, 1));
+
+		// Create terrain.
+		terrain = new Terrain(0, -1, loader, new ModelTexture(loader.loadTexture("desert")));
+		terrain2 = new Terrain(-1, -1, loader, new ModelTexture(loader.loadTexture("desert")));
 
 		// Create camera.
 		camera = new Camera();
@@ -84,7 +96,7 @@ public class MainGameLoop {
 		// Create the MasterRenderer
 		renderer = new MasterRenderer();
 	}
-	
+
 	// Cleans up renderer & loader, then closes display.
 	private static void terminate() {
 		// Cleanup loader & renderer upon closing.
