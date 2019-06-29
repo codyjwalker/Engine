@@ -10,6 +10,7 @@ import org.lwjgl.util.vector.Vector3f;
 import entities.Camera;
 import entities.Entity;
 import entities.Light;
+import entities.Player;
 import models.RawModel;
 import models.TexturedModel;
 import renderEngine.DisplayManager;
@@ -36,6 +37,7 @@ public class MainGameLoop {
 	private static Light light;
 	private static Camera camera;
 	private static MasterRenderer renderer;
+	private static Player player;
 
 	private static Terrain terrain, terrain2;
 	private static TerrainTexture backgroundTexture, rTexture, gTexture, bTexture, blendMap;
@@ -70,7 +72,6 @@ public class MainGameLoop {
 				new ModelTexture(loader.loadTexture("grassTexture")));
 		grass.getTexture().setTransparancy(true);
 		grass.getTexture().setUseFakeLighting(true);
-
 		fern = new TexturedModel(OBJLoader.loadObjModel("fern", loader), new ModelTexture(loader.loadTexture("fern")));
 		fern.getTexture().setTransparancy(true);
 
@@ -95,10 +96,10 @@ public class MainGameLoop {
 		entities = new ArrayList<Entity>();
 		Random random = new Random();
 		for (int i = 0; i < 500; i++) {
-//			entities.add(new Entity(grass, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600),
-//					0, 0, 0, 3));
-//			entities.add(new Entity(fern, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600), 0,
-//					0, 0, 2));
+			entities.add(new Entity(grass, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600),
+					0, 0, 0, 3));
+			entities.add(new Entity(fern, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600), 0,
+					0, 0, 2));
 
 			entities.add(new Entity(bush0, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600),
 					0, 0, 0, (1 + random.nextFloat())));
@@ -121,10 +122,11 @@ public class MainGameLoop {
 //					0, 0, 0, 2));
 
 		}
-		for (int i = 0; i < 100; i++) {
-			entities.add(new Entity(dragon,
-					new Vector3f(random.nextFloat() * 800 - 400, 100, random.nextFloat() * -600), 0, 0, 0, 3));
-		}
+		/*
+		 * for (int i = 0; i < 100; i++) { entities.add(new Entity(dragon, new
+		 * Vector3f(random.nextFloat() * 800 - 400, 100, random.nextFloat() * -600), 0,
+		 * 0, 0, 3)); }
+		 */
 
 		// Create lightsource.
 		light = new Light(new Vector3f(0, 100, 0), new Vector3f(1, 1, 1));
@@ -144,6 +146,9 @@ public class MainGameLoop {
 
 		// Create the MasterRenderer
 		renderer = new MasterRenderer();
+
+		// Create player.
+		player = new Player(dragon, new Vector3f(100, 0, -50), 0, 0, 0, 1);
 	}
 
 	public static void main(String[] args) {
@@ -151,10 +156,9 @@ public class MainGameLoop {
 
 		// The actual game loop. Exit when user clicks 'x' button.
 		while (!Display.isCloseRequested()) {
-			// TODO: FIGURE OUT IF THIS LINE SHOULD BE MOVED (PROBABLY SHOULD WITH MORE
-			// ENTITIES).
 			camera.move();
-
+			player.move();
+			renderer.processEntity(player);
 			renderer.processTerrain(terrain);
 			renderer.processTerrain(terrain2);
 

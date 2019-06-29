@@ -12,20 +12,21 @@ public class Camera {
 	private float yaw;
 	private float roll;
 
+	// Moves the camera around.
 	public void move() {
-		if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
+		if (Keyboard.isKeyDown(Keyboard.KEY_UP)) {
 			position.z -= MOVEMENT_SCALER;
 		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
+		if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) {
 			position.x += MOVEMENT_SCALER;
 		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
+		if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)) {
 			position.x -= MOVEMENT_SCALER;
 		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
+		if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
 			position.z += MOVEMENT_SCALER;
 		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
+		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
 			position.y += MOVEMENT_SCALER;
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
