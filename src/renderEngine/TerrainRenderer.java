@@ -13,6 +13,7 @@ import models.RawModel;
 import shaders.TerrainShader;
 import terrains.Terrain;
 import textures.ModelTexture;
+import textures.TerrainTexturePack;
 import toolbox.Maths;
 
 public class TerrainRenderer {
@@ -23,6 +24,7 @@ public class TerrainRenderer {
 		this.shader = shader;
 		shader.start();
 		shader.loadProjectionMatrix(projectionMatrix);
+		shader.connectTextureUnits();
 		shader.stop();
 	}
 
@@ -47,12 +49,30 @@ public class TerrainRenderer {
 		GL20.glEnableVertexAttribArray(0);
 		GL20.glEnableVertexAttribArray(1);
 		GL20.glEnableVertexAttribArray(2);
+		// Bind all the textures.
+		bindTextures(terrain);
 		// Get shine variables and load them up into shader.
-		ModelTexture modelTexture = terrain.getTexture();
-		shader.loadShineVariables(modelTexture.getShineDamper(), modelTexture.getReflectivity());
-		// Tell OpenGL which texture we would like to render.
+		shader.loadShineVariables(1, 0);
+	}
+
+	// Bind all textures & the blendMap to separate texture units.
+	private void bindTextures(Terrain terrain) {
+		TerrainTexturePack texturePack = terrain.getTexturePack();
+
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, modelTexture.getID());
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texturePack.getBackgroundTexture().getTextureID());
+
+		GL13.glActiveTexture(GL13.GL_TEXTURE1);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texturePack.getrTexture().getTextureID());
+
+		GL13.glActiveTexture(GL13.GL_TEXTURE2);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texturePack.getgTexture().getTextureID());
+
+		GL13.glActiveTexture(GL13.GL_TEXTURE3);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texturePack.getbTexture().getTextureID());
+
+		GL13.glActiveTexture(GL13.GL_TEXTURE4);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, terrain.getBlendMap().getTextureID());
 
 	}
 

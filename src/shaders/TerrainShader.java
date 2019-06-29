@@ -20,6 +20,11 @@ public class TerrainShader extends ShaderProgram {
 	private int location_shine_damper;
 	private int location_reflectivity;
 	private int location_sky_color;
+	private int location_background_texture;
+	private int location_r_texture;
+	private int location_g_texture;
+	private int location_b_texture;
+	private int location_blend_map;
 
 	public TerrainShader() {
 		super(VERTEX_FILE, FRAGMENT_FILE);
@@ -44,6 +49,11 @@ public class TerrainShader extends ShaderProgram {
 		location_shine_damper = super.getUniformLocation("shine_damper");
 		location_reflectivity = super.getUniformLocation("reflectivity");
 		location_sky_color = super.getUniformLocation("sky_color");
+		location_background_texture = super.getUniformLocation("background_texture");
+		location_r_texture = super.getUniformLocation("r_texture");
+		location_g_texture = super.getUniformLocation("g_texture");
+		location_b_texture = super.getUniformLocation("b_texture");
+		location_blend_map = super.getUniformLocation("blend_map");
 	}
 
 	// Loads transformation matrix to uniform variable.
@@ -73,10 +83,20 @@ public class TerrainShader extends ShaderProgram {
 		super.loadFloat(location_shine_damper, damper);
 		super.loadFloat(location_reflectivity, reflectivity);
 	}
-	
+
 	// Loads up value to sky color uniform variable.
 	public void loadSkyColor(float r, float g, float b) {
 		super.loadVector(location_sky_color, new Vector3f(r, g, b));
+	}
+
+	// Loads up an Integer to each of Sampler2D's to indicate which texture units
+	// they should be referencing.
+	public void connectTextureUnits() {
+		super.loadInt(location_background_texture, 0);
+		super.loadInt(location_r_texture, 1);
+		super.loadInt(location_g_texture, 2);
+		super.loadInt(location_b_texture, 3);
+		super.loadInt(location_blend_map, 4);
 	}
 
 }

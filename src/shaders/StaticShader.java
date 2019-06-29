@@ -80,7 +80,7 @@ public class StaticShader extends ShaderProgram {
 	public void loadFakeLightingVariable(boolean useFakeLighting) {
 		super.loadBoolean(location_use_fake_lighting, useFakeLighting);
 	}
-	
+
 	// Loads up sky color to uniform variable.
 	public void loadSkyColor(float r, float g, float b) {
 		super.loadVector(location_sky_color, new Vector3f(r, g, b));

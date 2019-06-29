@@ -8,13 +8,29 @@ in float visibility;
 
 out vec4 out_color;
 
-uniform sampler2D texture_sampler;
+uniform sampler2D background_texture;
+uniform sampler2D r_texture;
+uniform sampler2D g_texture;
+uniform sampler2D b_texture;
+uniform sampler2D blend_map;
+
 uniform vec3 light_color;
 uniform float shine_damper;
 uniform float reflectivity;
 uniform vec3 sky_color;
 
 void main(void) {
+
+	vec4 blend_map_color = texture(blend_map, pass_texture_coordinates);
+
+	float back_texture_amount = 1 - (blend_map_color.r + blend_map_color.g + blend_map_color.b);
+	vec2 tiled_coordinates = pass_texture_coordinates * 40.0;
+	vec4 background_texture_color = texture(background_texture, tiled_coordinates) * back_texture_amount;
+	vec4 r_texture_color = texture(r_texture, tiled_coordinates) * blend_map_color.r;
+	vec4 g_texture_color = texture(g_texture, tiled_coordinates) * blend_map_color.g;
+	vec4 b_texture_color = texture(b_texture, tiled_coordinates) * blend_map_color.b;
+
+	vec4 total_color = background_texture_color + r_texture_color + g_texture_color + b_texture_color;
 
 	vec3 unit_normal = normalize(surface_normal);
 	vec3 unit_light_vector = normalize(to_light_vector);
@@ -32,7 +48,7 @@ void main(void) {
 	float damped_factor = pow(specular_factor, shine_damper);
 	vec3 final_specular = damped_factor * reflectivity * light_color;
 
-	out_color = vec4(diffuse, 1.0) * texture(texture_sampler, pass_texture_coordinates) + vec4(final_specular, 1.0);
+	out_color = vec4(diffuse, 1.0) * total_color + vec4(final_specular, 1.0);
 	out_color = mix(vec4(sky_color, 1.0), out_color, visibility);
 	
 

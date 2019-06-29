@@ -18,6 +18,8 @@ import renderEngine.MasterRenderer;
 import renderEngine.OBJLoader;
 import terrains.Terrain;
 import textures.ModelTexture;
+import textures.TerrainTexture;
+import textures.TerrainTexturePack;
 
 /*
  * File:	MainGameLoop.java
@@ -36,9 +38,12 @@ public class MainGameLoop {
 	private static MasterRenderer renderer;
 
 	private static Terrain terrain, terrain2;
+	private static TerrainTexture backgroundTexture, rTexture, gTexture, bTexture, blendMap;
+	private static TerrainTexturePack texturePack;
+
 	private static TexturedModel grass;
 	private static TexturedModel fern;
-	private static TexturedModel bush0, bush1, bush2, rock0, rock1, tree0, tree1, tree2, bench0;
+	private static TexturedModel bush0, bush1, bush2, tree0;
 
 	// Initializes all objects needed for rendering.
 	private static void init() {
@@ -105,8 +110,9 @@ public class MainGameLoop {
 //					0, 0, 0, 2));
 //			entities.add(new Entity(rock1, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600),
 //					0, 0, 0, 2));
-			entities.add(new Entity(tree0, new Vector3f(random.nextFloat() * 800 - 400, -3.5f, random.nextFloat() * -600),
-					0, 0, 0, (10 + (10 * random.nextFloat()))));
+			entities.add(
+					new Entity(tree0, new Vector3f(random.nextFloat() * 800 - 400, -3.5f, random.nextFloat() * -600), 0,
+							0, 0, (10 + (10 * random.nextFloat()))));
 //			entities.add(new Entity(tree1, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600),
 //					0, 0, 0, 2));
 //			entities.add(new Entity(tree2, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600),
@@ -124,8 +130,14 @@ public class MainGameLoop {
 		light = new Light(new Vector3f(0, 100, 0), new Vector3f(1, 1, 1));
 
 		// Create terrain.
-		terrain = new Terrain(0, -1, loader, new ModelTexture(loader.loadTexture("grassTerrain")));
-		terrain2 = new Terrain(-1, -1, loader, new ModelTexture(loader.loadTexture("grassTerrain")));
+		backgroundTexture = new TerrainTexture(loader.loadTexture("grassTerrain"));
+		rTexture = new TerrainTexture(loader.loadTexture("desert"));
+		gTexture = new TerrainTexture(loader.loadTexture("grassFlowers"));
+		bTexture = new TerrainTexture(loader.loadTexture("path"));
+		texturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
+		blendMap = new TerrainTexture(loader.loadTexture("blendMap"));
+		terrain = new Terrain(0, -1, loader, texturePack, blendMap);
+		terrain2 = new Terrain(-1, -1, loader, texturePack, blendMap);
 
 		// Create camera.
 		camera = new Camera();

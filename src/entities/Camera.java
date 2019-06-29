@@ -5,7 +5,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 public class Camera {
 
-	private static final float MOVEMENT_SCALER = 0.05f;
+	private static final float MOVEMENT_SCALER = 0.3f;
 
 	private Vector3f position = new Vector3f(0, 5, 0);
 	private float pitch;
