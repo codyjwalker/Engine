@@ -13,8 +13,8 @@ import org.lwjgl.opengl.PixelFormat;
  */
 public class DisplayManager {
 
-	private static final int WIDTH = 1920;
-	private static final int HEIGHT = 1080;
+	private static final int WIDTH = 2560;
+	private static final int HEIGHT = 1440;
 	private static final int FPS_CAP = 120;
 
 	// Opens display upon starting of the engine.
@@ -24,8 +24,9 @@ public class DisplayManager {
 		ContextAttribs attribs = new ContextAttribs(3, 2).withForwardCompatible(true).withProfileCore(true);
 
 		try {
-			// Sets size of the display.
+			// Set size & location of the display.
 			Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
+			Display.setLocation(0, 0);
 			// Create the display.
 			Display.create(new PixelFormat(), attribs);
 			Display.setTitle("A Very Nice Display!");

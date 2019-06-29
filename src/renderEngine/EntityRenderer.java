@@ -62,7 +62,7 @@ public class EntityRenderer {
 		GL20.glEnableVertexAttribArray(2);
 		// Get shine variables and load them up into shader.
 		ModelTexture modelTexture = model.getTexture();
-		// Check for transparancy & set culling accordingly.
+		// Check for transparency & set culling accordingly.
 		if (modelTexture.hasTransparency()) {
 			MasterRenderer.disableCulling();
 		}

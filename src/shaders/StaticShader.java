@@ -1,6 +1,7 @@
 package shaders;
 
 import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector3f;
 
 import entities.Camera;
 import entities.Light;
@@ -8,8 +9,8 @@ import toolbox.Maths;
 
 public class StaticShader extends ShaderProgram {
 
-	private static final String VERTEX_FILE = "src/shaders/vertexShader";
-	private static final String FRAGMENT_FILE = "src/shaders/fragmentShader";
+	private static final String VERTEX_FILE = "src/shaders/vertexShader.vert";
+	private static final String FRAGMENT_FILE = "src/shaders/fragmentShader.frag";
 
 	private int location_transformation_matrix;
 	private int location_projection_matrix;
@@ -19,6 +20,7 @@ public class StaticShader extends ShaderProgram {
 	private int location_shine_damper;
 	private int location_reflectivity;
 	private int location_use_fake_lighting;
+	private int location_sky_color;
 
 	public StaticShader() {
 		super(VERTEX_FILE, FRAGMENT_FILE);
@@ -43,6 +45,7 @@ public class StaticShader extends ShaderProgram {
 		location_shine_damper = super.getUniformLocation("shine_damper");
 		location_reflectivity = super.getUniformLocation("reflectivity");
 		location_use_fake_lighting = super.getUniformLocation("use_fake_lighting");
+		location_sky_color = super.getUniformLocation("sky_color");
 	}
 
 	// Loads transformation matrix to uniform variable.
@@ -76,6 +79,11 @@ public class StaticShader extends ShaderProgram {
 	// Loads up fake lighting uniform variable.
 	public void loadFakeLightingVariable(boolean useFakeLighting) {
 		super.loadBoolean(location_use_fake_lighting, useFakeLighting);
+	}
+	
+	// Loads up sky color to uniform variable.
+	public void loadSkyColor(float r, float g, float b) {
+		super.loadVector(location_sky_color, new Vector3f(r, g, b));
 	}
 
 }

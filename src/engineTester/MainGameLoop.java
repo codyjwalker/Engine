@@ -47,6 +47,8 @@ public class MainGameLoop {
 		// Create Loader.
 		loader = new Loader();
 
+		// TODO: NOTE: ep. 16 Fog: Use of new OBJLoader
+
 		// Load up RawModel & ModelTexture, create texturedModel, & extract its texture.
 		rawModel = OBJLoader.loadObjModel("DragonBlender", loader);
 		texture = new ModelTexture(loader.loadTexture("white"));
@@ -75,7 +77,7 @@ public class MainGameLoop {
 			entities.add(new Entity(fern, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600), 0,
 					0, 0, 2));
 		}
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < 100; i++) {
 			entities.add(new Entity(dragon, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600),
 					0, 0, 0, 3));
 		}

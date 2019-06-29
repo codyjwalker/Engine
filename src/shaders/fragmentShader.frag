@@ -4,6 +4,7 @@ in vec2 pass_texture_coordinates;
 in vec3 surface_normal;
 in vec3 to_light_vector;
 in vec3 to_camera_vector;
+in float visibility;
 
 out vec4 out_color;
 
@@ -11,6 +12,7 @@ uniform sampler2D texture_sampler;
 uniform vec3 light_color;
 uniform float shine_damper;
 uniform float reflectivity;
+uniform vec3 sky_color;
 
 void main(void) {
 
@@ -24,13 +26,18 @@ void main(void) {
 	vec3 unit_to_camera_vector = normalize(to_camera_vector);
 	vec3 light_direction = -unit_light_vector;
 	vec3 reflected_light_direction = reflect(light_direction, unit_normal);
-	
+
 	float specular_factor = dot(reflected_light_direction, unit_to_camera_vector);
 	specular_factor = max(specular_factor, 0.0);
 	float damped_factor = pow(specular_factor, shine_damper);
 	vec3 final_specular = damped_factor * reflectivity * light_color;
-
-	out_color = vec4(diffuse, 1.0) * texture(texture_sampler, pass_texture_coordinates) + vec4(final_specular, 1.0);
 	
+	vec4 texture_color = texture(texture_sampler, pass_texture_coordinates);
+	if (texture_color.a < 0.5) {
+		discard;
+	}
+
+	out_color = vec4(diffuse, 1.0) * texture_color + vec4(final_specular, 1.0);
+	out_color = mix(vec4(sky_color, 1.0), out_color, visibility);
 
 }
