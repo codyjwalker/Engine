@@ -62,6 +62,11 @@ public class EntityRenderer {
 		GL20.glEnableVertexAttribArray(2);
 		// Get shine variables and load them up into shader.
 		ModelTexture modelTexture = model.getTexture();
+		// Check for transparancy & set culling accordingly.
+		if (modelTexture.hasTransparency()) {
+			MasterRenderer.disableCulling();
+		}
+		shader.loadFakeLightingVariable(modelTexture.isUsingFakeLighting());
 		shader.loadShineVariables(modelTexture.getShineDamper(), modelTexture.getReflectivity());
 		// Tell OpenGL which texture we would like to render.
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
@@ -71,6 +76,8 @@ public class EntityRenderer {
 
 	// Unbinds the TexturedModel.
 	private void unbindTexturedModel() {
+		// Enable culling again for next TexturedModel.
+		MasterRenderer.enableCulling();
 		// Disable the Attribute Lists and un-bind the VAO now that we're done.
 		GL20.glDisableVertexAttribArray(0);
 		GL20.glDisableVertexAttribArray(1);

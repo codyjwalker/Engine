@@ -40,10 +40,7 @@ public class MasterRenderer {
 	private List<Terrain> terrains;
 
 	public MasterRenderer() {
-		// Cull faces inside objects that we wouldn't see anyways to reduce
-		// computations.
-		GL11.glEnable(GL11.GL_CULL_FACE);
-		GL11.glCullFace(GL11.GL_BACK);
+		enableCulling();
 
 		// Initialize globals.
 		entities = new HashMap<TexturedModel, List<Entity>>();
@@ -56,6 +53,18 @@ public class MasterRenderer {
 
 		renderer = new EntityRenderer(shader, projectionMatrix);
 		terrainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
+	}
+
+	// Cull faces inside objects that we wouldn't see anyways to reduce
+	// computations.
+	public static void enableCulling() {
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glCullFace(GL11.GL_BACK);
+	}
+
+	// Disable Culling on transparent objects so that we see all parts of them.
+	public static void disableCulling() {
+		GL11.glDisable(GL11.GL_CULL_FACE);
 	}
 
 	public void render(Light light, Camera camera) {
