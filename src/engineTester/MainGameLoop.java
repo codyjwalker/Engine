@@ -96,17 +96,17 @@ public class MainGameLoop {
 //					0, 0, 2));
 
 			entities.add(new Entity(bush0, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600),
-					0, 0, 0, 2));
+					0, 0, 0, (1 + random.nextFloat())));
 			entities.add(new Entity(bush1, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600),
-					0, 0, 0, 2));
+					0, 0, 0, (1 + random.nextFloat())));
 			entities.add(new Entity(bush2, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600),
-					0, 0, 0, 2));
+					0, 0, 0, (1 + random.nextFloat())));
 //			entities.add(new Entity(rock0, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600),
 //					0, 0, 0, 2));
 //			entities.add(new Entity(rock1, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600),
 //					0, 0, 0, 2));
 			entities.add(new Entity(tree0, new Vector3f(random.nextFloat() * 800 - 400, -3.5f, random.nextFloat() * -600),
-					0, 0, 0, 18));
+					0, 0, 0, (10 + (10 * random.nextFloat()))));
 //			entities.add(new Entity(tree1, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600),
 //					0, 0, 0, 2));
 //			entities.add(new Entity(tree2, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600),
