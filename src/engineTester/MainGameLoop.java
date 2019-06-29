@@ -141,14 +141,15 @@ public class MainGameLoop {
 		terrain = new Terrain(0, -1, loader, texturePack, blendMap);
 		terrain2 = new Terrain(-1, -1, loader, texturePack, blendMap);
 
-		// Create camera.
-		camera = new Camera();
-
 		// Create the MasterRenderer
 		renderer = new MasterRenderer();
 
 		// Create player.
 		player = new Player(dragon, new Vector3f(100, 0, -50), 0, 0, 0, 1);
+
+		// Create camera.
+		camera = new Camera(player);
+
 	}
 
 	public static void main(String[] args) {
