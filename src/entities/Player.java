@@ -53,7 +53,7 @@ public class Player extends Entity {
 	private void jump() {
 		if (!this.isAirborne) {
 			this.upwardsSpeed = JUMP_POWER;
-			this.isAirborne = true;
+			//this.isAirborne = true;
 		}
 	}
 
@@ -79,5 +79,5 @@ public class Player extends Entity {
 			jump();
 		}
 	}
-
+	
 }

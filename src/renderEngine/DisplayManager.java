@@ -14,8 +14,8 @@ import org.lwjgl.opengl.PixelFormat;
  */
 public class DisplayManager {
 
-	private static final int WIDTH = 2560;
-	private static final int HEIGHT = 1440;
+	private static final int WIDTH = 1280;
+	private static final int HEIGHT = 720;
 	private static final int FPS_CAP = 120;
 
 	private static long lastFrameTime;
@@ -33,7 +33,7 @@ public class DisplayManager {
 			Display.setLocation(0, 0);
 			// Create the display.
 			Display.create(new PixelFormat(), attribs);
-			Display.setTitle("A Very Nice Display!");
+			Display.setTitle("Chopstick Charlie");
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 		}

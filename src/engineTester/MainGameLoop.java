@@ -58,8 +58,8 @@ public class MainGameLoop {
 		// TODO: NOTE: ep. 16 Fog: Use of new OBJLoader
 
 		// Load up RawModel & ModelTexture, create texturedModel, & extract its texture.
-		rawModel = OBJLoader.loadObjModel("DragonBlender", loader);
-		texture = new ModelTexture(loader.loadTexture("white"));
+		rawModel = OBJLoader.loadObjModel("Toothpickcharlie1", loader);
+		texture = new ModelTexture(loader.loadTexture("GOld"));
 		dragon = new TexturedModel(rawModel, texture);
 		modelTexture = dragon.getTexture();
 
@@ -145,7 +145,7 @@ public class MainGameLoop {
 		renderer = new MasterRenderer();
 
 		// Create player.
-		player = new Player(dragon, new Vector3f(100, 0, -50), 0, 0, 0, 1);
+		player = new Player(dragon, new Vector3f(100, 0, -50), 0, 180, 0, 10);
 
 		// Create camera.
 		camera = new Camera(player);
