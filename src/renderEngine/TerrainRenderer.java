@@ -35,7 +35,9 @@ public class TerrainRenderer {
 			prepareTerrain(terrain);
 			loadModelMatrix(terrain);
 			// Do the final render!
-			GL11.glDrawElements(GL11.GL_TRIANGLES, terrain.getModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+			GL11.glDrawElements(GL11.GL_TRIANGLES,
+					terrain.getModel().getVertexCount(), GL11.GL_UNSIGNED_INT,
+					0);
 			unbindTexturedModel();
 		}
 	}
@@ -60,19 +62,24 @@ public class TerrainRenderer {
 		TerrainTexturePack texturePack = terrain.getTexturePack();
 
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texturePack.getBackgroundTexture().getTextureID());
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D,
+				texturePack.getBackgroundTexture().getTextureID());
 
 		GL13.glActiveTexture(GL13.GL_TEXTURE1);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texturePack.getrTexture().getTextureID());
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D,
+				texturePack.getrTexture().getTextureID());
 
 		GL13.glActiveTexture(GL13.GL_TEXTURE2);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texturePack.getgTexture().getTextureID());
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D,
+				texturePack.getgTexture().getTextureID());
 
 		GL13.glActiveTexture(GL13.GL_TEXTURE3);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texturePack.getbTexture().getTextureID());
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D,
+				texturePack.getbTexture().getTextureID());
 
 		GL13.glActiveTexture(GL13.GL_TEXTURE4);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, terrain.getBlendMap().getTextureID());
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D,
+				terrain.getBlendMap().getTextureID());
 
 	}
 
@@ -88,8 +95,8 @@ public class TerrainRenderer {
 	// Prepares the entities (instances) of each of the TexturedModels.
 	private void loadModelMatrix(Terrain terrain) {
 		// Load up entity's transformation to vertex shader.
-		Matrix4f transformationMatrix = Maths
-				.createTransformationMatrix(new Vector3f(terrain.getX(), 0, terrain.getZ()), 0, 0, 0, 1);
+		Matrix4f transformationMatrix = Maths.createTransformationMatrix(
+				new Vector3f(terrain.getX(), 0, terrain.getZ()), 0, 0, 0, 1);
 		shader.loadTransformationMatrix(transformationMatrix);
 	}
 

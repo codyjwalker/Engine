@@ -5,9 +5,9 @@ import org.lwjgl.util.vector.Vector3f;
 import models.TexturedModel;
 
 /*
- * File:	Entity.java
- * Purpose:	An instance of a TexturedModel.  Contains TexturedModel as well as
- * 			position, rotation, and scale we want to render model at in 3D world.
+ * File: Entity.java Purpose: An instance of a TexturedModel. Contains
+ * TexturedModel as well as position, rotation, and scale we want to render
+ * model at in 3D world.
  */
 public class Entity {
 
@@ -16,7 +16,8 @@ public class Entity {
 	private float rotX, rotY, rotZ;
 	private float scale;
 
-	public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
+	public Entity(TexturedModel model, Vector3f position, float rotX,
+			float rotY, float rotZ, float scale) {
 		this.model = model;
 		this.position = position;
 		this.rotX = rotX;

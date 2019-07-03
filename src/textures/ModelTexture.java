@@ -1,10 +1,11 @@
 package textures;
 
 /*
- * File:	ModelTexture.java
- * Purpose:	Represents a texture to texture our models.
+ * File: ModelTexture.java Purpose: Represents a texture to texture our
+ * models.
  */
 public class ModelTexture {
+
 	private static final float SHINE_DAMPER = 1;
 	private static final float REFLECTIVITY = 0;
 

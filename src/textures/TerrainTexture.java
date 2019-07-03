@@ -1,8 +1,7 @@
 package textures;
 
 /*
- * File:	TerrainTexture.java
- * Purpose:	Represents a terrain texture object.
+ * File: TerrainTexture.java Purpose: Represents a terrain texture object.
  */
 public class TerrainTexture {
 

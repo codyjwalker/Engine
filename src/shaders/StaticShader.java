@@ -37,14 +37,17 @@ public class StaticShader extends ShaderProgram {
 	// Gets the locations of all uniform variables.
 	@Override
 	protected void getAllUniformLocations() {
-		location_transformation_matrix = super.getUniformLocation("transformation_matrix");
-		location_projection_matrix = super.getUniformLocation("projection_matrix");
+		location_transformation_matrix = super.getUniformLocation(
+				"transformation_matrix");
+		location_projection_matrix = super.getUniformLocation(
+				"projection_matrix");
 		location_view_matrix = super.getUniformLocation("view_matrix");
 		location_light_position = super.getUniformLocation("light_position");
 		location_light_color = super.getUniformLocation("light_color");
 		location_shine_damper = super.getUniformLocation("shine_damper");
 		location_reflectivity = super.getUniformLocation("reflectivity");
-		location_use_fake_lighting = super.getUniformLocation("use_fake_lighting");
+		location_use_fake_lighting = super.getUniformLocation(
+				"use_fake_lighting");
 		location_sky_color = super.getUniformLocation("sky_color");
 	}
 

@@ -2,8 +2,8 @@ package entities;
 
 import org.lwjgl.util.vector.Vector3f;
 
-/* File:	Light.java
- * Purpose:	Represents a light object.
+/*
+ * File: Light.java Purpose: Represents a light object.
  */
 public class Light {
 

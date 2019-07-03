@@ -18,10 +18,10 @@ import shaders.TerrainShader;
 import terrains.Terrain;
 
 /*
- * File:	MasterRenderer.java
- * Purpose:	Abstractifies the rendering process so that entities sharing the same texture 
- * 			do not cause the renderer to do extra computations by loading up the same 
- * 			TexturedModel for each entity sharing it.
+ * File: MasterRenderer.java Purpose: Abstractifies the rendering process so
+ * that entities sharing the same texture do not cause the renderer to do
+ * extra computations by loading up the same TexturedModel for each entity
+ * sharing it.
  */
 public class MasterRenderer {
 
@@ -65,7 +65,8 @@ public class MasterRenderer {
 		GL11.glCullFace(GL11.GL_BACK);
 	}
 
-	// Disable Culling on transparent objects so that we see all parts of them.
+	// Disable Culling on transparent objects so that we see all parts of
+	// them.
 	public static void disableCulling() {
 		GL11.glDisable(GL11.GL_CULL_FACE);
 	}
@@ -103,8 +104,10 @@ public class MasterRenderer {
 
 	// Creates the projection matrix.
 	private void createProjectionMatrix() {
-		float aspectRatio = (float) Display.getWidth() / (float) Display.getHeight();
-		float yScale = (float) ((1f / Math.tan(Math.toRadians(FOV / 2f))) * aspectRatio);
+		float aspectRatio = (float) Display.getWidth()
+				/ (float) Display.getHeight();
+		float yScale = (float) ((1f / Math.tan(Math.toRadians(FOV / 2f)))
+				* aspectRatio);
 		float xScale = yScale / aspectRatio;
 		float frustumLength = FAR_PLANE - NEAR_PLANE;
 
@@ -117,11 +120,13 @@ public class MasterRenderer {
 		projectionMatrix.m33 = 0;
 	}
 
-	// Sorts all entities ready to be rendered into the correct list each frame.
+	// Sorts all entities ready to be rendered into the correct list each
+	// frame.
 	public void processEntity(Entity entity) {
 		TexturedModel entityModel = entity.getModel();
 		List<Entity> batch = entities.get(entityModel);
-		// If batch for curr TexturedModel already exists, add entity straight to that
+		// If batch for curr TexturedModel already exists, add entity straight
+		// to that
 		// batch.
 		if (batch != null) {
 			batch.add(entity);

@@ -3,8 +3,8 @@ package models;
 import textures.ModelTexture;
 
 /*
- * File:	TexturedModel.java
- * Purpose:	Represents a textured model.  Contains both texture data and model data.
+ * File: TexturedModel.java Purpose: Represents a textured model. Contains
+ * both texture data and model data.
  */
 public class TexturedModel {
 

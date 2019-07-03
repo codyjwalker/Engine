@@ -1,8 +1,8 @@
 package textures;
 
 /*
- * File:	TerrainTexturePack.java
- * Purpose:	Contains all the textures we wish to render on a particular terrain.
+ * File: TerrainTexturePack.java Purpose: Contains all the textures we wish
+ * to render on a particular terrain.
  */
 public class TerrainTexturePack {
 
@@ -11,7 +11,8 @@ public class TerrainTexturePack {
 	private TerrainTexture gTexture;
 	private TerrainTexture bTexture;
 
-	public TerrainTexturePack(TerrainTexture backgroundTexture, TerrainTexture rTexture, TerrainTexture gTexture,
+	public TerrainTexturePack(TerrainTexture backgroundTexture,
+			TerrainTexture rTexture, TerrainTexture gTexture,
 			TerrainTexture bTexture) {
 		this.backgroundTexture = backgroundTexture;
 		this.rTexture = rTexture;

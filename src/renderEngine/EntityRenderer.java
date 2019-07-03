@@ -17,8 +17,7 @@ import textures.ModelTexture;
 import toolbox.Maths;
 
 /*
- * File:	Renderer.java
- * Purpose:	Renders the model from the VAO.
+ * File: Renderer.java Purpose: Renders the model from the VAO.
  */
 public class EntityRenderer {
 
@@ -44,7 +43,9 @@ public class EntityRenderer {
 				// Prepare each entity (instance) for rendering.
 				prepareInstance(entity);
 				// Do the final render!
-				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getRawModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+				GL11.glDrawElements(GL11.GL_TRIANGLES,
+						model.getRawModel().getVertexCount(),
+						GL11.GL_UNSIGNED_INT, 0);
 
 			}
 			unbindTexturedModel();
@@ -67,7 +68,8 @@ public class EntityRenderer {
 			MasterRenderer.disableCulling();
 		}
 		shader.loadFakeLightingVariable(modelTexture.isUsingFakeLighting());
-		shader.loadShineVariables(modelTexture.getShineDamper(), modelTexture.getReflectivity());
+		shader.loadShineVariables(modelTexture.getShineDamper(),
+				modelTexture.getReflectivity());
 		// Tell OpenGL which texture we would like to render.
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, modelTexture.getID());
@@ -88,8 +90,9 @@ public class EntityRenderer {
 	// Prepares the entities (instances) of each of the TexturedModels.
 	private void prepareInstance(Entity entity) {
 		// Load up entity's transformation to vertex shader.
-		Matrix4f transformationMatrix = Maths.createTransformationMatrix(entity.getPosition(), entity.getRotX(),
-				entity.getRotY(), entity.getRotZ(), entity.getScale());
+		Matrix4f transformationMatrix = Maths.createTransformationMatrix(
+				entity.getPosition(), entity.getRotX(), entity.getRotY(),
+				entity.getRotZ(), entity.getScale());
 		shader.loadTransformationMatrix(transformationMatrix);
 	}
 

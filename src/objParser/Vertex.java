@@ -34,8 +34,10 @@ public class Vertex {
 		return textureIndex != NO_INDEX && normalIndex != NO_INDEX;
 	}
 
-	public boolean hasSameTextureAndNormal(int textureIndexOther, int normalIndexOther) {
-		return textureIndexOther == textureIndex && normalIndexOther == normalIndex;
+	public boolean hasSameTextureAndNormal(int textureIndexOther,
+			int normalIndexOther) {
+		return textureIndexOther == textureIndex
+				&& normalIndexOther == normalIndex;
 	}
 
 	public void setTextureIndex(int textureIndex) {

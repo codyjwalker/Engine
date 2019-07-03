@@ -13,8 +13,7 @@ import org.lwjgl.util.vector.Vector3f;
 import models.RawModel;
 
 /*
- * File:	OBJLoader.java
- * Purpose:	Loads up .obj file as a RawModel.
+ * File: OBJLoader.java Purpose: Loads up .obj file as a RawModel.
  */
 public class OBJLoader {
 
@@ -43,18 +42,24 @@ public class OBJLoader {
 				String[] currLine = line.split(" ");
 				// Vertex line.
 				if (line.startsWith("v ")) {
-					Vector3f vertex = new Vector3f(Float.parseFloat(currLine[1]), Float.parseFloat(currLine[2]),
+					Vector3f vertex = new Vector3f(
+							Float.parseFloat(currLine[1]),
+							Float.parseFloat(currLine[2]),
 							Float.parseFloat(currLine[3]));
 					vertices.add(vertex);
 				}
 				// Texture line.
 				else if (line.startsWith("vt ")) {
-					Vector2f texture = new Vector2f(Float.parseFloat(currLine[1]), Float.parseFloat(currLine[2]));
+					Vector2f texture = new Vector2f(
+							Float.parseFloat(currLine[1]),
+							Float.parseFloat(currLine[2]));
 					textures.add(texture);
 				}
 				// Normal line.
 				else if (line.startsWith("vn ")) {
-					Vector3f normal = new Vector3f(Float.parseFloat(currLine[1]), Float.parseFloat(currLine[2]),
+					Vector3f normal = new Vector3f(
+							Float.parseFloat(currLine[1]),
+							Float.parseFloat(currLine[2]),
 							Float.parseFloat(currLine[3]));
 					normals.add(normal);
 				}
@@ -76,9 +81,12 @@ public class OBJLoader {
 				String[] vertex2 = currLine[2].split("/");
 				String[] vertex3 = currLine[3].split("/");
 
-				processVertex(vertex1, indices, textures, normals, textureArray, normalsArray);
-				processVertex(vertex2, indices, textures, normals, textureArray, normalsArray);
-				processVertex(vertex3, indices, textures, normals, textureArray, normalsArray);
+				processVertex(vertex1, indices, textures, normals, textureArray,
+						normalsArray);
+				processVertex(vertex2, indices, textures, normals, textureArray,
+						normalsArray);
+				processVertex(vertex3, indices, textures, normals, textureArray,
+						normalsArray);
 
 				line = reader.readLine();
 			}
@@ -102,16 +110,21 @@ public class OBJLoader {
 			indicesArray[i] = indices.get(i);
 		}
 
-		return loader.loadToVAO(verticesArray, textureArray, normalsArray, indicesArray);
+		return loader.loadToVAO(verticesArray, textureArray, normalsArray,
+				indicesArray);
 
 	}
 
-	// Sorts out the texture coordinate & normal vector for the current vertex.
-	private static void processVertex(String[] vertexData, List<Integer> indices, List<Vector2f> textures,
-			List<Vector3f> normals, float[] textureArray, float[] normalsArray) {
+	// Sorts out the texture coordinate & normal vector for the current
+	// vertex.
+	private static void processVertex(String[] vertexData,
+			List<Integer> indices, List<Vector2f> textures,
+			List<Vector3f> normals, float[] textureArray,
+			float[] normalsArray) {
 		int currVertexPointer = Integer.parseInt(vertexData[0]) - 1;
 		indices.add(currVertexPointer);
-		Vector2f currTexture = textures.get(Integer.parseInt(vertexData[1]) - 1);
+		Vector2f currTexture = textures
+				.get(Integer.parseInt(vertexData[1]) - 1);
 		textureArray[currVertexPointer * 2] = currTexture.x;
 		textureArray[(currVertexPointer * 2) + 1] = 1 - currTexture.y;
 		Vector3f currNormal = normals.get(Integer.parseInt(vertexData[2]) - 1);

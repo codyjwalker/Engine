@@ -1,8 +1,8 @@
 package models;
 
 /*
- * File:	RawModel.java
- * Purpose:	Represents a raw model of an object stored in memory.
+ * File: RawModel.java Purpose: Represents a raw model of an object stored
+ * in memory.
  */
 public class RawModel {
 

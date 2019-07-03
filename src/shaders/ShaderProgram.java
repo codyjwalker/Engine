@@ -12,9 +12,8 @@ import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Matrix4f;
 
 /*
- * File:	ShaderProgram
- * Purpose:	Generic shader program containing all the attributes &
- * 			methods every shader program will have.
+ * File: ShaderProgram Purpose: Generic shader program containing all the
+ * attributes & methods every shader program will have.
  */
 public abstract class ShaderProgram {
 
@@ -108,9 +107,12 @@ public abstract class ShaderProgram {
 	}
 
 	// Loads up shader source code files. Opens up source code files,
-	// reads in all the lines, and connects them all together in one long sting.
-	// Then, create new vertex or fragment shader, depending on value of 'type',
-	// attaches string of source code to it, compiles it, and lastly prints any
+	// reads in all the lines, and connects them all together in one long
+	// sting.
+	// Then, create new vertex or fragment shader, depending on value of
+	// 'type',
+	// attaches string of source code to it, compiles it, and lastly prints
+	// any
 	// errors found before returning ID of newly created shader.
 	private static int loadShader(String file, int type) {
 		StringBuilder shaderSource = new StringBuilder();
@@ -130,7 +132,8 @@ public abstract class ShaderProgram {
 		GL20.glShaderSource(shaderID, shaderSource);
 		GL20.glCompileShader(shaderID);
 		// NOTE: glGetShader() deprecated, using glGetShaderi instead.
-		if (GL20.glGetShaderi(shaderID, GL20.GL_COMPILE_STATUS) == GL11.GL_FALSE) {
+		if (GL20.glGetShaderi(shaderID,
+				GL20.GL_COMPILE_STATUS) == GL11.GL_FALSE) {
 			System.out.println(GL20.glGetShaderInfoLog(shaderID, 500));
 			System.err.println("ERROR:  COULD NOT COMPILE SHADER!!!");
 			System.exit(-1);

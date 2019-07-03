@@ -9,8 +9,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.PixelFormat;
 
 /*
- * File:	DisplayManager.java
- * Purpose:	Responsible for managing the display.
+ * File: DisplayManager.java Purpose: Responsible for managing the display.
  */
 public class DisplayManager {
 
@@ -25,7 +24,8 @@ public class DisplayManager {
 	public static void createDisplay() {
 
 		// Set attributes required for creating the display.
-		ContextAttribs attribs = new ContextAttribs(3, 2).withForwardCompatible(true).withProfileCore(true);
+		ContextAttribs attribs = new ContextAttribs(3, 2)
+				.withForwardCompatible(true).withProfileCore(true);
 
 		try {
 			// Set size & location of the display.
@@ -65,7 +65,8 @@ public class DisplayManager {
 		Display.destroy();
 	}
 
-	// Gets the current time in miliseconds by dividing ticks by #ticks per second.
+	// Gets the current time in miliseconds by dividing ticks by #ticks per
+	// second.
 	private static long getCurrentTime() {
 		return Sys.getTime() * 1000 / Sys.getTimerResolution();
 	}

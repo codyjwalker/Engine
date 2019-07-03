@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL14;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
@@ -19,11 +20,13 @@ import org.newdawn.slick.opengl.TextureLoader;
 import models.RawModel;
 
 /*
- * File:	Loader.java
- * Purpose:	Loads 3D models into memory by storing positional data about
- * 			the model in a VAO.
+ * File: Loader.java Purpose: Loads 3D models into memory by storing
+ * positional data about the model in a VAO.
  */
 public class Loader {
+
+	// Represents how strong of MipMapping to use.
+	private static final float LOD_BIAS = -0.5f;
 
 	// Lists storing IDs of VAOs, VBOs, & textures. to be used for cleanup.
 	private List<Integer> VAOs = new ArrayList<Integer>();
@@ -32,7 +35,8 @@ public class Loader {
 
 	// Takes in positions of the model's vertices, loads this data into
 	// a VAO, and then returns information about the VAO as a RawModel object.
-	public RawModel loadToVAO(float[] positions, float[] textureCoordinates, float[] normals, int[] indices) {
+	public RawModel loadToVAO(float[] positions, float[] textureCoordinates,
+			float[] normals, int[] indices) {
 		int vaoID = createVAO();
 		bindIndicesBuffer(indices);
 		// Store positional data into the first (0) attribute list of the VAO.
@@ -51,7 +55,15 @@ public class Loader {
 	public int loadTexture(String fileName) {
 		Texture texture = null;
 		try {
-			texture = TextureLoader.getTexture("PNG", new FileInputStream("res/" + fileName + ".png"));
+			texture = TextureLoader.getTexture("PNG",
+					new FileInputStream("res/" + fileName + ".png"));
+			// Generate MipMap for rendering objects far away at lower
+			// resolutions.
+			GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER,
+					GL11.GL_LINEAR_MIPMAP_LINEAR);
+			GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL14.GL_TEXTURE_LOD_BIAS,
+					LOD_BIAS);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -90,7 +102,8 @@ public class Loader {
 	}
 
 	// Stores the data into one of the attribute lists of the VAO.
-	private void storeDataInAttributeList(int attributeNumber, int coordinateSize, float[] data) {
+	private void storeDataInAttributeList(int attributeNumber,
+			int coordinateSize, float[] data) {
 		// Must store data in Attribute List as VBO, so create an empty one.
 		int vboID = GL15.glGenBuffers();
 		// Add it to our list so we can delete it later.
@@ -102,7 +115,8 @@ public class Loader {
 		// Store FloatBuffer with our data into VBO.
 		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
 		// Put VBO into one of the VAO's Attribute Lists.
-		GL20.glVertexAttribPointer(attributeNumber, coordinateSize, GL11.GL_FLOAT, false, 0, 0);
+		GL20.glVertexAttribPointer(attributeNumber, coordinateSize,
+				GL11.GL_FLOAT, false, 0, 0);
 		// Unbind VBO.
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 	}
@@ -122,7 +136,8 @@ public class Loader {
 		// Convert indices into IntBuffer.
 		IntBuffer buffer = storeDataInIntBuffer(indices);
 		// Store into VBO.
-		GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
+		GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, buffer,
+				GL15.GL_STATIC_DRAW);
 	}
 
 	// Converts float-array of data into a FloatBuffer.
