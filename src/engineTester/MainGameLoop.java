@@ -162,16 +162,20 @@ public class MainGameLoop {
 		texturePack = new TerrainTexturePack(backgroundTexture, rTexture,
 				gTexture, bTexture);
 		blendMap = new TerrainTexture(loader.loadTexture("blendMap"));
-		terrain = new Terrain(0, -1, loader, texturePack, blendMap);
-		terrain2 = new Terrain(-1,-1, loader, texturePack, blendMap);
-		terrain3 = new Terrain(0, 0, loader, texturePack, blendMap);
-		terrain4 = new Terrain(-1,0, loader, texturePack, blendMap);
+		terrain = new Terrain(0, -1, loader, texturePack, blendMap,
+				"heightmap");
+		terrain2 = new Terrain(-1, -1, loader, texturePack, blendMap,
+				"heightmap");
+		terrain3 = new Terrain(0, 0, loader, texturePack, blendMap,
+				"heightmap");
+		terrain4 = new Terrain(-1, 0, loader, texturePack, blendMap,
+				"heightmap");
 
 		// Create the MasterRenderer
 		renderer = new MasterRenderer();
 
 		// Create player.
-		player = new Player(dragon, new Vector3f(100, 0, -50), 0, 180, 0, 10);
+		player = new Player(dragon, new Vector3f(100, 0, -50), 0, 180, 0, 2);
 
 		// Create camera.
 		camera = new Camera(player);
