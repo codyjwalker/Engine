@@ -164,12 +164,12 @@ public class MainGameLoop {
 		blendMap = new TerrainTexture(loader.loadTexture("blendMap"));
 		terrain = new Terrain(0, -1, loader, texturePack, blendMap,
 				"heightmap");
-		terrain2 = new Terrain(-1, -1, loader, texturePack, blendMap,
-				"heightmap");
-		terrain3 = new Terrain(0, 0, loader, texturePack, blendMap,
-				"heightmap");
-		terrain4 = new Terrain(-1, 0, loader, texturePack, blendMap,
-				"heightmap");
+		// terrain2 = new Terrain(-1, -1, loader, texturePack, blendMap,
+		// "heightmap");
+		// terrain3 = new Terrain(0, 0, loader, texturePack, blendMap,
+		// "heightmap");
+		// terrain4 = new Terrain(-1, 0, loader, texturePack, blendMap,
+		// "heightmap");
 
 		// Create the MasterRenderer
 		renderer = new MasterRenderer();
@@ -188,12 +188,13 @@ public class MainGameLoop {
 		// The actual game loop. Exit when user clicks 'x' button.
 		while (!Display.isCloseRequested()) {
 			camera.move();
-			player.move();
+			player.move(terrain);
+			// TODO: test which terrain player is standing on.
 			renderer.processEntity(player);
 			renderer.processTerrain(terrain);
-			renderer.processTerrain(terrain2);
-			renderer.processTerrain(terrain3);
-			renderer.processTerrain(terrain4);
+			// renderer.processTerrain(terrain2);
+			// renderer.processTerrain(terrain3);
+			// renderer.processTerrain(terrain4);
 
 			// For each entity, for each frame, process the entity.
 			for (Entity entity : entities) {
