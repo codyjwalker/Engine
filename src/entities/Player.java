@@ -16,8 +16,6 @@ public class Player extends Entity {
 	private static final float TURN_SPEED = 160.0f;
 	private static final float GRAVITY = -150.0f;
 	private static final float JUMP_POWER = 130.0f;
-	private static final float TERRAIN_HEIGHT = 0.0f;
-
 	private float currMoveSpeed, currTurnSpeed, upwardsSpeed;
 	private boolean isAirborne;
 
