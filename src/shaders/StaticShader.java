@@ -1,5 +1,7 @@
 package shaders;
 
+import java.util.List;
+
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
@@ -12,12 +14,13 @@ public class StaticShader extends ShaderProgram {
 
 	private static final String VERTEX_FILE = "src/shaders/vertexShader.vert";
 	private static final String FRAGMENT_FILE = "src/shaders/fragmentShader.frag";
+	private static final int MAX_LIGHTS = 4;
 
 	private int location_transformation_matrix;
 	private int location_projection_matrix;
 	private int location_view_matrix;
-	private int location_light_position;
-	private int location_light_color;
+	private int location_light_position[];
+	private int location_light_color[];
 	private int location_shine_damper;
 	private int location_reflectivity;
 	private int location_use_fake_lighting;
@@ -45,9 +48,6 @@ public class StaticShader extends ShaderProgram {
 		this.location_projection_matrix = super.getUniformLocation(
 				"projection_matrix");
 		this.location_view_matrix = super.getUniformLocation("view_matrix");
-		this.location_light_position = super.getUniformLocation(
-				"light_position");
-		this.location_light_color = super.getUniformLocation("light_color");
 		this.location_shine_damper = super.getUniformLocation("shine_damper");
 		this.location_reflectivity = super.getUniformLocation("reflectivity");
 		this.location_use_fake_lighting = super.getUniformLocation(
@@ -56,6 +56,16 @@ public class StaticShader extends ShaderProgram {
 		this.location_number_of_rows = super.getUniformLocation(
 				"number_of_rows");
 		this.location_offset = super.getUniformLocation("offset");
+
+		this.location_light_position = new int[MAX_LIGHTS];
+		this.location_light_color = new int[MAX_LIGHTS];
+		// Get location of each of elements in arrays & store in int arrays.
+		for (int i = 0; i < MAX_LIGHTS; i++) {
+			this.location_light_position[i] = super.getUniformLocation(
+					"light_position[" + i + "]");
+			this.location_light_color[i] = super.getUniformLocation(
+					"light_color[" + i + "]");
+		}
 	}
 
 	// Loads transformation matrix to uniform variable.
@@ -74,10 +84,23 @@ public class StaticShader extends ShaderProgram {
 		super.loadMatrix(this.location_view_matrix, viewMatrix);
 	}
 
-	// Loads up light uniform variables.
-	public void loadLight(Light light) {
-		super.loadVector(this.location_light_position, light.getPosition());
-		super.loadVector(this.location_light_color, light.getColor());
+	// Loads up lights uniform variables.
+	public void loadLights(List<Light> lights) {
+		for (int i = 0; i < MAX_LIGHTS; i++) {
+			if (i < lights.size()) {
+				// Load up position & color of light i
+				super.loadVector(this.location_light_position[i],
+						lights.get(i).getPosition());
+				super.loadVector(this.location_light_color[i],
+						lights.get(i).getColor());
+			} else {
+				// If no light, load up empty vectors.
+				super.loadVector(this.location_light_position[i],
+						new Vector3f(0, 0, 0));
+				super.loadVector(this.location_light_color[i],
+						new Vector3f(0, 0, 0));
+			}
+		}
 	}
 
 	// Loads up shine uniform variables.

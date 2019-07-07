@@ -37,6 +37,7 @@ public class MainGameLoop {
 	private static TexturedModel dragon;
 	private static List<Entity> entities;
 	private static Light light;
+	private static List<Light> lights;
 	private static Camera camera;
 	private static MasterRenderer renderer;
 	private static Player player;
@@ -161,8 +162,14 @@ public class MainGameLoop {
 		 * -600), 0, 0, 0, 3)); }
 		 */
 
-		// Create lightsource.
+		// Create lights.
 		light = new Light(new Vector3f(0, 100, 0), new Vector3f(1, 1, 1));
+		lights = new ArrayList<Light>();
+		lights.add(light);
+		lights.add(new Light(new Vector3f(-200, 10, -200),
+				new Vector3f(10, 0, 0)));
+		lights.add(
+				new Light(new Vector3f(200, 10, 200), new Vector3f(0, 0, 10)));
 
 		// Create terrain.
 		backgroundTexture = new TerrainTexture(
@@ -194,10 +201,10 @@ public class MainGameLoop {
 		// Create GUIs.
 		guis = new ArrayList<GUITexture>();
 		gui = new GUITexture(loader.loadTexture("socuwan"),
-				new Vector2f(0.5f, 0.5f), new Vector2f(0.25f, 0.25f));
+				new Vector2f(0.7f, 0.7f), new Vector2f(0.25f, 0.25f));
 		guis.add(gui);
 		gui2 = new GUITexture(loader.loadTexture("health"),
-				new Vector2f(0.3f, 0.7f), new Vector2f(0.4f, 0.4f));
+				new Vector2f(-0.8f, 0.9f), new Vector2f(0.2f, 0.2f));
 		guis.add(gui2);
 		guiRenderer = new GUIRenderer(loader);
 
@@ -224,7 +231,7 @@ public class MainGameLoop {
 			}
 
 			// Render each frame.
-			renderer.render(light, camera);
+			renderer.render(lights, camera);
 
 			// Render the GUI elements each frame.
 			guiRenderer.render(guis);
