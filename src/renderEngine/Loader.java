@@ -71,8 +71,17 @@ public class Loader {
 		}
 		int textureID = texture.getTextureID();
 		Textures.add(textureID);
-		return textureID;
 
+		return textureID;
+	}
+
+	// Loads a texture for GUI into OpenGL.
+	public RawModel loadToVAO(float[] positions) {
+		// Create new VAO for GUI textures.
+		int vaoID = createVAO();
+		this.storeDataInAttributeList(0, 2, positions);
+		unbindVAO();
+		return new RawModel(vaoID, positions.length / 2);
 	}
 
 	// Called upon closing of engine to delete the VAOs, VBOs, & textures we

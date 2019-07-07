@@ -5,12 +5,15 @@ import java.util.List;
 import java.util.Random;
 
 import org.lwjgl.opengl.Display;
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import entities.Camera;
 import entities.Entity;
 import entities.Light;
 import entities.Player;
+import guis.GUIRenderer;
+import guis.GUITexture;
 import models.RawModel;
 import models.TexturedModel;
 import renderEngine.DisplayManager;
@@ -46,6 +49,10 @@ public class MainGameLoop {
 	private static TexturedModel grass;
 	private static TexturedModel fern;
 	private static TexturedModel bush0, bush1, bush2, tree0;
+
+	private static List<GUITexture> guis;
+	private static GUITexture gui, gui2;
+	private static GUIRenderer guiRenderer;
 
 	// Initializes all objects needed for rendering.
 	private static void init() {
@@ -184,6 +191,16 @@ public class MainGameLoop {
 		// Create camera.
 		camera = new Camera(player);
 
+		// Create GUIs.
+		guis = new ArrayList<GUITexture>();
+		gui = new GUITexture(loader.loadTexture("socuwan"),
+				new Vector2f(0.5f, 0.5f), new Vector2f(0.25f, 0.25f));
+		guis.add(gui);
+		gui2 = new GUITexture(loader.loadTexture("health"),
+				new Vector2f(0.3f, 0.7f), new Vector2f(0.4f, 0.4f));
+		guis.add(gui2);
+		guiRenderer = new GUIRenderer(loader);
+
 	}
 
 	public static void main(String[] args) {
@@ -209,6 +226,9 @@ public class MainGameLoop {
 			// Render each frame.
 			renderer.render(light, camera);
 
+			// Render the GUI elements each frame.
+			guiRenderer.render(guis);
+
 			// Update the display each frame.
 			DisplayManager.updateDisplay();
 		}
@@ -217,6 +237,8 @@ public class MainGameLoop {
 
 	// Cleans up renderer & loader, then closes display.
 	private static void terminate() {
+		// Shut down GUI renderer.
+		guiRenderer.cleanUp();
 		// Cleanup loader & renderer upon closing.
 		renderer.cleanUp();
 		loader.cleanUp();
