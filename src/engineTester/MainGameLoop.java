@@ -206,7 +206,7 @@ public class MainGameLoop {
 		// "heightmap");
 
 		// Create the MasterRenderer
-		renderer = new MasterRenderer();
+		renderer = new MasterRenderer(loader);
 
 		// Create player.
 		player = new Player(dragon, new Vector3f(100, 0, -50), 0, 180, 0, 2);

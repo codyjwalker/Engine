@@ -15,6 +15,7 @@ import entities.Light;
 import models.TexturedModel;
 import shaders.StaticShader;
 import shaders.TerrainShader;
+import skybox.SkyboxRenderer;
 import terrains.Terrain;
 
 /*
@@ -28,34 +29,37 @@ public class MasterRenderer {
 	private static final float FOV = 70;
 	private static final float NEAR_PLANE = 0.1f;
 	private static final float FAR_PLANE = 1000;
-	private static final float RED = 0.2f;
-	private static final float GREEN = 1;
-	private static final float BLUE = 1;
+	private static final float RED = 0.54444f;
+	private static final float GREEN = 0.62f;
+	private static final float BLUE = 0.69f;
 
 	private Matrix4f projectionMatrix;
 	private StaticShader shader;
 	private EntityRenderer renderer;
 	private TerrainRenderer terrainRenderer;
 	private TerrainShader terrainShader;
+	private SkyboxRenderer skyboxRenderer;
 
 	// Hashmap of all TexturedModels & their respective entities.
 	private Map<TexturedModel, List<Entity>> entities;
 	private List<Terrain> terrains;
 
-	public MasterRenderer() {
+	public MasterRenderer(Loader loader) {
 		enableCulling();
 
 		// Initialize globals.
-		entities = new HashMap<TexturedModel, List<Entity>>();
-		terrains = new ArrayList<Terrain>();
+		this.entities = new HashMap<TexturedModel, List<Entity>>();
+		this.terrains = new ArrayList<Terrain>();
 
-		shader = new StaticShader();
-		terrainShader = new TerrainShader();
+		this.shader = new StaticShader();
+		this.terrainShader = new TerrainShader();
 
 		createProjectionMatrix();
 
-		renderer = new EntityRenderer(shader, projectionMatrix);
-		terrainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
+		this.renderer = new EntityRenderer(this.shader, this.projectionMatrix);
+		this.terrainRenderer = new TerrainRenderer(this.terrainShader,
+				this.projectionMatrix);
+		this.skyboxRenderer = new SkyboxRenderer(loader, this.projectionMatrix);
 	}
 
 	// Cull faces inside objects that we wouldn't see anyways to reduce
@@ -74,22 +78,24 @@ public class MasterRenderer {
 	public void render(List<Light> lights, Camera camera) {
 		prepare();
 		// Render the entities.
-		shader.start();
-		shader.loadSkyColor(RED, GREEN, BLUE);
-		shader.loadLights(lights);
-		shader.loadViewMatrix(camera);
-		renderer.render(entities);
-		shader.stop();
+		this.shader.start();
+		this.shader.loadSkyColor(RED, GREEN, BLUE);
+		this.shader.loadLights(lights);
+		this.shader.loadViewMatrix(camera);
+		this.renderer.render(entities);
+		this.shader.stop();
 		// Render the terrains.
-		terrainShader.start();
-		terrainShader.loadSkyColor(RED, GREEN, BLUE);
-		terrainShader.loadLight(lights);
-		terrainShader.loadViewMatrix(camera);
-		terrainRenderer.render(terrains);
-		terrainShader.stop();
+		this.terrainShader.start();
+		this.terrainShader.loadSkyColor(RED, GREEN, BLUE);
+		this.terrainShader.loadLight(lights);
+		this.terrainShader.loadViewMatrix(camera);
+		this.terrainRenderer.render(this.terrains);
+		this.terrainShader.stop();
+		// Render skybox.
+		this.skyboxRenderer.render(camera);
 		// Clear entities and terrains each frame.
-		entities.clear();
-		terrains.clear();
+		this.entities.clear();
+		this.terrains.clear();
 	}
 
 	// Called once every frame to prepare OpenGL to render the game.
@@ -111,20 +117,21 @@ public class MasterRenderer {
 		float xScale = yScale / aspectRatio;
 		float frustumLength = FAR_PLANE - NEAR_PLANE;
 
-		projectionMatrix = new Matrix4f();
-		projectionMatrix.m00 = xScale;
-		projectionMatrix.m11 = yScale;
-		projectionMatrix.m22 = -((FAR_PLANE + NEAR_PLANE) / frustumLength);
-		projectionMatrix.m23 = -1;
-		projectionMatrix.m32 = -((2 * NEAR_PLANE * FAR_PLANE) / frustumLength);
-		projectionMatrix.m33 = 0;
+		this.projectionMatrix = new Matrix4f();
+		this.projectionMatrix.m00 = xScale;
+		this.projectionMatrix.m11 = yScale;
+		this.projectionMatrix.m22 = -((FAR_PLANE + NEAR_PLANE) / frustumLength);
+		this.projectionMatrix.m23 = -1;
+		this.projectionMatrix.m32 = -((2 * NEAR_PLANE * FAR_PLANE)
+				/ frustumLength);
+		this.projectionMatrix.m33 = 0;
 	}
 
 	// Sorts all entities ready to be rendered into the correct list each
 	// frame.
 	public void processEntity(Entity entity) {
 		TexturedModel entityModel = entity.getModel();
-		List<Entity> batch = entities.get(entityModel);
+		List<Entity> batch = this.entities.get(entityModel);
 		// If batch for curr TexturedModel already exists, add entity straight
 		// to that
 		// batch.
@@ -135,17 +142,17 @@ public class MasterRenderer {
 			List<Entity> newBatch = new ArrayList<Entity>();
 			// Add the entity to the new batch & add batch to HashMap.
 			newBatch.add(entity);
-			entities.put(entityModel, newBatch);
+			this.entities.put(entityModel, newBatch);
 		}
 	}
 
 	// Adds terrain to list of Terrains.
 	public void processTerrain(Terrain terrain) {
-		terrains.add(terrain);
+		this.terrains.add(terrain);
 	}
 
 	public void cleanUp() {
-		shader.cleanUp();
-		terrainShader.cleanUp();
+		this.shader.cleanUp();
+		this.terrainShader.cleanUp();
 	}
 }

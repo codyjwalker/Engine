@@ -20,7 +20,7 @@ public class GUIRenderer {
 
 	public GUIRenderer(Loader loader) {
 		float[] positions = {-1, 1, -1, -1, 1, 1, 1, -1};
-		this.quad = loader.loadToVAO(positions);
+		this.quad = loader.loadToVAO(positions, 2); // 2 dimensions.
 		this.shader = new GUIShader();
 	}
 
