@@ -36,7 +36,7 @@ public class MainGameLoop {
 	private static ModelTexture texture, modelTexture;
 	private static TexturedModel dragon;
 	private static List<Entity> entities;
-	private static Light light;
+	private static Light light1, light2, light3, light4;
 	private static List<Light> lights;
 	private static Camera camera;
 	private static MasterRenderer renderer;
@@ -50,6 +50,7 @@ public class MainGameLoop {
 	private static TexturedModel grass;
 	private static TexturedModel fern;
 	private static TexturedModel bush0, bush1, bush2, tree0;
+	private static TexturedModel lamp;
 
 	private static List<GUITexture> guis;
 	private static GUITexture gui, gui2;
@@ -109,6 +110,8 @@ public class MainGameLoop {
 		// tree2 = new TexturedModel(OBJLoader.loadObjModel("simpleTree2",
 		// loader),
 		// new ModelTexture(loader.loadTexture("tree")));
+		lamp = new TexturedModel(OBJLoader.loadObjModel("lamp", loader),
+				new ModelTexture(loader.loadTexture("lamp")));
 
 		// Create Entity with TexturedModel.
 		entities = new ArrayList<Entity>();
@@ -163,13 +166,26 @@ public class MainGameLoop {
 		 */
 
 		// Create lights.
-		light = new Light(new Vector3f(0, 100, 0), new Vector3f(1, 1, 1));
+		light1 = new Light(new Vector3f(0, 1000, -7000),
+				new Vector3f(0.4f, 0.4f, 0.4f));
+		light2 = new Light(new Vector3f(185, 10, -293), new Vector3f(2, 0, 0),
+				new Vector3f(1, 0.01f, 0.002f));
+		light3 = new Light(new Vector3f(370, 17, -300), new Vector3f(0, 2, 2),
+				new Vector3f(1, 0.01f, 0.002f));
+		light4 = new Light(new Vector3f(283, 7, -305), new Vector3f(2, 2, 0),
+				new Vector3f(1, 0.01f, 0.002f));
 		lights = new ArrayList<Light>();
-		lights.add(light);
-		lights.add(new Light(new Vector3f(-200, 10, -200),
-				new Vector3f(10, 0, 0)));
-		lights.add(
-				new Light(new Vector3f(200, 10, 200), new Vector3f(0, 0, 10)));
+		lights.add(light1);
+		lights.add(light2);
+		lights.add(light3);
+		lights.add(light4);
+		// Lamp entities.
+		entities.add(
+				new Entity(lamp, new Vector3f(185, -4.7f, -293), 0, 0, 0, 1));
+		entities.add(
+				new Entity(lamp, new Vector3f(370, 4.2f, -300), 0, 0, 0, 1));
+		entities.add(
+				new Entity(lamp, new Vector3f(293, -6.8f, -305), 0, 0, 0, 1));
 
 		// Create terrain.
 		backgroundTexture = new TerrainTexture(
