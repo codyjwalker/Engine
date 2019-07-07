@@ -17,7 +17,7 @@ uniform vec3 light_position;
 uniform float use_fake_lighting;
 
 // For texture atlas.
-uniform float number_of_rows;
+uniform int number_of_rows;
 uniform vec2 offset;
 
 const float density = 0.003;
