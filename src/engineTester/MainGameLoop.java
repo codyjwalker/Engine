@@ -163,13 +163,17 @@ public class MainGameLoop {
 		 */
 
 		// Create lights.
-		light = new Light(new Vector3f(0, 100, 0), new Vector3f(1, 1, 1));
+//		light = new Light(new Vector3f(0, 100, 0), new Vector3f(1, 1, 1));
 		lights = new ArrayList<Light>();
-		lights.add(light);
-		lights.add(new Light(new Vector3f(-200, 10, -200),
-				new Vector3f(1, 0, 0)));
-		lights.add(
-				new Light(new Vector3f(200, 10, 200), new Vector3f(0, 0, 1)));
+//		lights.add(light);
+//		lights.add(new Light(new Vector3f(-200, 10, -200),
+//				new Vector3f(1, 0, 0)));
+//		lights.add(
+//				new Light(new Vector3f(200, 10, 200), new Vector3f(0, 0, 1)));
+		lights.add(new Light(new Vector3f(0, 1000, -7000), new Vector3f(0.4f, 0.4f, 0.4f)));
+		lights.add(new Light(new Vector3f(185, 10, -293), new Vector3f(1, 0, 0), new Vector3f(1, 0.01f, 0.002f)));
+		lights.add(new Light(new Vector3f(370, 17, -300), new Vector3f(0, 1, 1), new Vector3f(1, 0.01f, 0.002f)));
+		lights.add(new Light(new Vector3f(293, 7, -305), new Vector3f(1, 1, 0), new Vector3f(1, 0.01f, 0.002f)));
 
 		// Create terrain.
 		backgroundTexture = new TerrainTexture(

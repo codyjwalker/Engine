@@ -28,6 +28,7 @@ public class TerrainShader extends ShaderProgram {
 	private int location_g_texture;
 	private int location_b_texture;
 	private int location_blend_map;
+	private int location_attenuation[];
 
 	public TerrainShader() {
 		super(VERTEX_FILE, FRAGMENT_FILE);
@@ -61,6 +62,7 @@ public class TerrainShader extends ShaderProgram {
 
 		this.location_light_position = new int[MAX_LIGHTS];
 		this.location_light_color = new int[MAX_LIGHTS];
+		this.location_attenuation = new int[MAX_LIGHTS];
 		// Get location of each of elements in uniform arrays & store in int
 		// arrays.
 		for (int i = 0; i < MAX_LIGHTS; i++) {
@@ -68,6 +70,7 @@ public class TerrainShader extends ShaderProgram {
 					"light_position[" + i + "]");
 			location_light_color[i] = super.getUniformLocation(
 					"light_color[" + i + "]");
+			this.location_attenuation[i] = super.getUniformLocation("attenuation[" + i + "]");
 		}
 	}
 
@@ -96,12 +99,15 @@ public class TerrainShader extends ShaderProgram {
 						lights.get(i).getPosition());
 				super.loadVector(this.location_light_color[i],
 						lights.get(i).getColor());
+				super.loadVector(this.location_attenuation[i], lights.get(i).getAttenuation());
 			} else {
 				// If no light, load up empty vectors.
 				super.loadVector(this.location_light_position[i],
 						new Vector3f(0, 0, 0));
 				super.loadVector(this.location_light_color[i],
 						new Vector3f(0, 0, 0));
+				super.loadVector(this.location_attenuation[i],
+						new Vector3f(1, 0, 0));
 			}
 		}
 
