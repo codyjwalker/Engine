@@ -62,7 +62,7 @@ public class StaticShader extends ShaderProgram {
 			this.location_light_color[i] = super.getUniformLocation(
 					"light_color[" + i + "]");
 			this.location_attenuation[i] = super.getUniformLocation(
-					"attenuation");
+					"attenuation[" + i + "]");
 		}
 	}
 
