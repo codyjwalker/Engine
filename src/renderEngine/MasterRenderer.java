@@ -92,7 +92,7 @@ public class MasterRenderer {
 		this.terrainRenderer.render(this.terrains);
 		this.terrainShader.stop();
 		// Render skybox.
-		this.skyboxRenderer.render(camera);
+		this.skyboxRenderer.render(camera, RED, GREEN, BLUE);
 		// Clear entities and terrains each frame.
 		this.entities.clear();
 		this.terrains.clear();
