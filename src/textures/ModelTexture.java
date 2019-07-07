@@ -9,7 +9,7 @@ public class ModelTexture {
 	private static final float SHINE_DAMPER = 1;
 	private static final float REFLECTIVITY = 0;
 
-	private int textureID;
+	private int textureID, numberOfRows;
 	private float shineDamper;
 	private float reflectivity;
 	private boolean hasTransparency;
@@ -21,6 +21,15 @@ public class ModelTexture {
 		this.reflectivity = REFLECTIVITY;
 		this.hasTransparency = false;
 		this.useFakeLighting = false;
+		this.numberOfRows = 1; // # rows in texture atlas
+	}
+
+	public int getNumberOfRows() {
+		return this.numberOfRows;
+	}
+
+	public void setNumberOfRows(int numberOfRows) {
+		this.numberOfRows = numberOfRows;
 	}
 
 	public boolean isUsingFakeLighting() {

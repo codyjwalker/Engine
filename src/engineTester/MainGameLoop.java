@@ -73,8 +73,12 @@ public class MainGameLoop {
 				new ModelTexture(loader.loadTexture("grassTexture")));
 		grass.getTexture().setTransparancy(true);
 		grass.getTexture().setUseFakeLighting(true);
+
+		ModelTexture fernTextureAtlas = new ModelTexture(
+				loader.loadTexture("fern"));
+		fernTextureAtlas.setNumberOfRows(2);
 		fern = new TexturedModel(OBJLoader.loadObjModel("fern", loader),
-				new ModelTexture(loader.loadTexture("fern")));
+				fernTextureAtlas);
 		fern.getTexture().setTransparancy(true);
 
 		bush0 = new TexturedModel(OBJLoader.loadObjModel("simpleBush0", loader),
@@ -109,7 +113,7 @@ public class MainGameLoop {
 			entities.add(new Entity(fern,
 					new Vector3f(random.nextFloat() * 800 - 400, 0,
 							random.nextFloat() * -600),
-					0, 0, 0, 2));
+					0, 0, 0, 2, random.nextInt(4)));
 
 			entities.add(new Entity(bush0,
 					new Vector3f(random.nextFloat() * 800 - 400, 0,

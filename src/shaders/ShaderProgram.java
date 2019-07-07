@@ -10,6 +10,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector2f;
 
 /*
  * File: ShaderProgram Purpose: Generic shader program containing all the
@@ -59,6 +60,11 @@ public abstract class ShaderProgram {
 	// Loads vector to uniform location.
 	protected void loadVector(int location, Vector3f vector) {
 		GL20.glUniform3f(location, vector.x, vector.y, vector.z);
+	}
+
+	// Loads vector to uniform location.
+	protected void loadVector2D(int location, Vector2f vector) {
+		GL20.glUniform2f(location, vector.x, vector.y);
 	}
 
 	// Loads boolean to uniform location.

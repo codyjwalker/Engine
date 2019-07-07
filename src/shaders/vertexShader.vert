@@ -16,6 +16,10 @@ uniform mat4 view_matrix;
 uniform vec3 light_position;
 uniform float use_fake_lighting;
 
+// For texture atlas.
+uniform float number_of_rows;
+uniform vec2 offset;
+
 const float density = 0.003;
 const float gradient = 5;
 
@@ -24,7 +28,7 @@ void main(void) {
 	vec4 world_position = transformation_matrix * vec4(position, 1.0);
 	vec4 position_relative_to_cam = view_matrix * world_position;
 	gl_Position = projection_matrix * position_relative_to_cam;
-	pass_texture_coordinates = texture_coordinates;
+	pass_texture_coordinates = (texture_coordinates / number_of_rows) + offset;
 	
 	vec3 actual_normal = normal;
 	if (use_fake_lighting > 0.5) {

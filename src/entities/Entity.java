@@ -15,6 +15,7 @@ public class Entity {
 	private Vector3f position;
 	private float rotX, rotY, rotZ;
 	private float scale;
+	private int textureIndex; // Index in the texture atlas.
 
 	public Entity(TexturedModel model, Vector3f position, float rotX,
 			float rotY, float rotZ, float scale) {
@@ -24,6 +25,18 @@ public class Entity {
 		this.rotY = rotY;
 		this.rotZ = rotZ;
 		this.scale = scale;
+		this.textureIndex = 0;
+	}
+
+	public Entity(TexturedModel model, Vector3f position, float rotX,
+			float rotY, float rotZ, float scale, int textureIndex) {
+		this.model = model;
+		this.position = position;
+		this.rotX = rotX;
+		this.rotY = rotY;
+		this.rotZ = rotZ;
+		this.scale = scale;
+		this.textureIndex = textureIndex;
 	}
 
 	// Move the entity in the world.
@@ -38,6 +51,19 @@ public class Entity {
 		this.rotX += dx;
 		this.rotY += dy;
 		this.rotZ += dz;
+	}
+
+	// Returns the texture's X-offset in the texture atlas.
+	public float getTextureXOffset() {
+		int col = this.textureIndex % this.model.getTexture().getNumberOfRows();
+		return (float) col / (float) this.model.getTexture().getNumberOfRows();
+	}
+
+	// Returns the texture's Y-offset in the texture atlas.
+	public float getTextureYOffset() {
+		int row = this.textureIndex / this.model.getTexture().getNumberOfRows();
+		return (float) row / (float) this.model.getTexture().getNumberOfRows();
+
 	}
 
 	public TexturedModel getModel() {

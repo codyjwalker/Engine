@@ -25,9 +25,9 @@ public class EntityRenderer {
 
 	public EntityRenderer(StaticShader shader, Matrix4f projectionMatrix) {
 		this.shader = shader;
-		shader.start();
-		shader.loadProjectionMatrix(projectionMatrix);
-		shader.stop();
+		this.shader.start();
+		this.shader.loadProjectionMatrix(projectionMatrix);
+		this.shader.stop();
 	}
 
 	// Renders the raw models. Broken up with helper methods in order to
@@ -63,12 +63,15 @@ public class EntityRenderer {
 		GL20.glEnableVertexAttribArray(2);
 		// Get shine variables and load them up into shader.
 		ModelTexture modelTexture = model.getTexture();
+		// Load up texture atlas values.
+		this.shader.loadNumberOfRows(modelTexture.getNumberOfRows());
 		// Check for transparency & set culling accordingly.
 		if (modelTexture.hasTransparency()) {
 			MasterRenderer.disableCulling();
 		}
-		shader.loadFakeLightingVariable(modelTexture.isUsingFakeLighting());
-		shader.loadShineVariables(modelTexture.getShineDamper(),
+		this.shader
+				.loadFakeLightingVariable(modelTexture.isUsingFakeLighting());
+		this.shader.loadShineVariables(modelTexture.getShineDamper(),
 				modelTexture.getReflectivity());
 		// Tell OpenGL which texture we would like to render.
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
@@ -93,7 +96,10 @@ public class EntityRenderer {
 		Matrix4f transformationMatrix = Maths.createTransformationMatrix(
 				entity.getPosition(), entity.getRotX(), entity.getRotY(),
 				entity.getRotZ(), entity.getScale());
-		shader.loadTransformationMatrix(transformationMatrix);
+		this.shader.loadTransformationMatrix(transformationMatrix);
+		// Load texture atlas offset.
+		this.shader.loadOffset(entity.getTextureXOffset(),
+				entity.getTextureYOffset());
 	}
 
 }
