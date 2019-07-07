@@ -20,7 +20,7 @@ uniform vec3 light_position[4]; // Array for positions of all lights.
 uniform float use_fake_lighting;
 
 // For texture atlas.
-uniform float number_of_rows;
+uniform int number_of_rows;
 uniform vec2 offset;
 
 void main(void) {

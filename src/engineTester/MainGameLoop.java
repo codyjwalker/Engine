@@ -167,9 +167,9 @@ public class MainGameLoop {
 		lights = new ArrayList<Light>();
 		lights.add(light);
 		lights.add(new Light(new Vector3f(-200, 10, -200),
-				new Vector3f(10, 0, 0)));
+				new Vector3f(1, 0, 0)));
 		lights.add(
-				new Light(new Vector3f(200, 10, 200), new Vector3f(0, 0, 10)));
+				new Light(new Vector3f(200, 10, 200), new Vector3f(0, 0, 1)));
 
 		// Create terrain.
 		backgroundTexture = new TerrainTexture(
