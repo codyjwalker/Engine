@@ -20,9 +20,9 @@ import toolbox.Maths;
  */
 public class Terrain {
 
-	private static final float SIZE = 800;
-	private static final float MAX_HEIGHT = 40;
-	private static final float MAX_PIXEL_COLOR = 256 * 256 * 256;
+	private static final float SIZE = 800f;
+	private static final float MAX_HEIGHT = 180f;
+	private static final float MAX_PIXEL_COLOR = 256f * 256f * 256f;
 
 	private float x;
 	private float z;
@@ -110,7 +110,7 @@ public class Terrain {
 		// Get pixel color of height map & make value workable.
 		float height = image.getRGB(x, y);
 		height += (MAX_PIXEL_COLOR / 2f);
-		height /= MAX_PIXEL_COLOR;
+		height /= (MAX_PIXEL_COLOR / 2f);
 		height *= MAX_HEIGHT;
 
 		return height;
@@ -142,8 +142,8 @@ public class Terrain {
 			return 0;
 		}
 		// Find where on the gridsquare the player is.
-		float xCoord = (terrainX % gridSquareSize);
-		float zCoord = (terrainZ % gridSquareSize);
+		float xCoord = (terrainX % gridSquareSize) / gridSquareSize;
+		float zCoord = (terrainZ % gridSquareSize) / gridSquareSize;
 		float result;
 
 		if (xCoord <= (1 - zCoord)) {

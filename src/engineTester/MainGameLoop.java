@@ -113,37 +113,63 @@ public class MainGameLoop {
 		lamp = new TexturedModel(OBJLoader.loadObjModel("lamp", loader),
 				new ModelTexture(loader.loadTexture("lamp")));
 
-		// Create Entity with TexturedModel.
+		// Create terrain.
+		backgroundTexture = new TerrainTexture(
+				loader.loadTexture("grassTerrain"));
+		rTexture = new TerrainTexture(loader.loadTexture("desert"));
+		gTexture = new TerrainTexture(loader.loadTexture("grassFlowers"));
+		bTexture = new TerrainTexture(loader.loadTexture("path"));
+		texturePack = new TerrainTexturePack(backgroundTexture, rTexture,
+				gTexture, bTexture);
+		blendMap = new TerrainTexture(loader.loadTexture("blendMap"));
+		terrain = new Terrain(0, -1, loader, texturePack, blendMap,
+				"heightmap");
+		// terrain2 = new Terrain(-1, -1, loader, texturePack, blendMap,
+		// "heightmap");
+		// terrain3 = new Terrain(0, 0, loader, texturePack, blendMap,
+		// "heightmap");
+		// terrain4 = new Terrain(-1, 0, loader, texturePack, blendMap,
+		// "heightmap");
+
+
+		// Create Entities with TexturedModels.
 		entities = new ArrayList<Entity>();
 		Random random = new Random();
+		float x, y, z;
 		for (int i = 0; i < 500; i++) {
-			entities.add(new Entity(grass,
-					new Vector3f(random.nextFloat() * 800 - 400, 0,
-							random.nextFloat() * -600),
-					0, 0, 0, 3));
-			entities.add(new Entity(fern,
-					new Vector3f(random.nextFloat() * 800 - 400, 0,
-							random.nextFloat() * -600),
-					0, 0, 0, 2, random.nextInt(4)));
-
-			entities.add(new Entity(bush0,
-					new Vector3f(random.nextFloat() * 800 - 400, 0,
-							random.nextFloat() * -600),
-					0, 0, 0, (1 + random.nextFloat())));
-			entities.add(new Entity(bush1,
-					new Vector3f(random.nextFloat() * 800 - 400, 0,
-							random.nextFloat() * -600),
-					0, 0, 0, (1 + random.nextFloat())));
-			entities.add(new Entity(bush2,
-					new Vector3f(random.nextFloat() * 800 - 400, 0,
-							random.nextFloat() * -600),
-					0, 0, 0, (1 + random.nextFloat())));
+			x = random.nextFloat() * 800 - 400;
+			z = random.nextFloat() * -600;
+			y = terrain.getHeightOfTerrain(x, z);
+			entities.add(new Entity(grass, new Vector3f(x, y, z), 0, 0, 0, 3));
+			x = random.nextFloat() * 800 - 400;
+			z = random.nextFloat() * -600;
+			y = terrain.getHeightOfTerrain(x, z);
+			entities.add(new Entity(fern, new Vector3f(x, y, z), 0, 0, 0, 2,
+					random.nextInt(4)));
+			x = random.nextFloat() * 800 - 400;
+			z = random.nextFloat() * -600;
+			y = terrain.getHeightOfTerrain(x, z);
+			entities.add(new Entity(bush0, new Vector3f(x, y, z), 0, 0, 0,
+					(1 + random.nextFloat())));
+			x = random.nextFloat() * 800 - 400;
+			z = random.nextFloat() * -600;
+			y = terrain.getHeightOfTerrain(x, z);
+			entities.add(new Entity(bush1, new Vector3f(x, y, z), 0, 0, 0,
+					(1 + random.nextFloat())));
+			x = random.nextFloat() * 800 - 400;
+			z = random.nextFloat() * -600;
+			y = terrain.getHeightOfTerrain(x, z);
+			entities.add(new Entity(bush2, new Vector3f(x, y, z), 0, 0, 0,
+					(1 + random.nextFloat())));
 			// entities.add(new Entity(rock0, new Vector3f(random.nextFloat() *
 			// 800 - 400, 0, random.nextFloat() * -600),
 			// 0, 0, 0, 2));
 			// entities.add(new Entity(rock1, new Vector3f(random.nextFloat() *
 			// 800 - 400, 0, random.nextFloat() * -600),
 			// 0, 0, 0, 2));
+			x = random.nextFloat() * 800 - 400;
+			z = random.nextFloat() * -600;
+			y = terrain.getHeightOfTerrain(x, z);
 			entities.add(new Entity(tree0,
 					new Vector3f(random.nextFloat() * 800 - 400, -3.5f,
 							random.nextFloat() * -600),
@@ -186,25 +212,8 @@ public class MainGameLoop {
 				new Entity(lamp, new Vector3f(370, 4.2f, -300), 0, 0, 0, 1));
 		entities.add(
 				new Entity(lamp, new Vector3f(293, -6.8f, -305), 0, 0, 0, 1));
-
-		// Create terrain.
-		backgroundTexture = new TerrainTexture(
-				loader.loadTexture("grassTerrain"));
-		rTexture = new TerrainTexture(loader.loadTexture("desert"));
-		gTexture = new TerrainTexture(loader.loadTexture("grassFlowers"));
-		bTexture = new TerrainTexture(loader.loadTexture("path"));
-		texturePack = new TerrainTexturePack(backgroundTexture, rTexture,
-				gTexture, bTexture);
-		blendMap = new TerrainTexture(loader.loadTexture("blendMap"));
-		terrain = new Terrain(0, -1, loader, texturePack, blendMap,
-				"heightmap");
-		// terrain2 = new Terrain(-1, -1, loader, texturePack, blendMap,
-		// "heightmap");
-		// terrain3 = new Terrain(0, 0, loader, texturePack, blendMap,
-		// "heightmap");
-		// terrain4 = new Terrain(-1, 0, loader, texturePack, blendMap,
-		// "heightmap");
-
+		
+		
 		// Create the MasterRenderer
 		renderer = new MasterRenderer(loader);
 
