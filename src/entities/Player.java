@@ -5,6 +5,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import models.TexturedModel;
 import renderEngine.DisplayManager;
+import terrains.Terrain;
 
 /*
  * File: Player.java Purpose: Object that represents the player.
@@ -30,7 +31,7 @@ public class Player extends Entity {
 	}
 
 	// Moves the player around.
-	public void move() {
+	public void move(Terrain terrain) {
 		checkInputs();
 		super.increaseRotation(0,
 				currTurnSpeed * DisplayManager.getFrameTimeSeconds(), 0);
@@ -42,14 +43,15 @@ public class Player extends Entity {
 				* (Math.cos(Math.toRadians(super.getRotY()))));
 		// Move the player by each amount.
 		super.increasePosition(dx, 0, dz);
+		float terrainHeight = terrain.getHeightOfTerrain(super.getPosition().x, super.getPosition().z);
 		// Work out players vertical position during jumps.
 		upwardsSpeed += GRAVITY * DisplayManager.getFrameTimeSeconds();
 		super.increasePosition(0,
 				upwardsSpeed * DisplayManager.getFrameTimeSeconds(), 0);
-		if (super.getPosition().y < TERRAIN_HEIGHT) {
+		if (super.getPosition().y < terrainHeight) {
 			upwardsSpeed = 0;
 			this.isAirborne = false;
-			super.getPosition().y = TERRAIN_HEIGHT;
+			super.getPosition().y = terrainHeight;
 		}
 	}
 

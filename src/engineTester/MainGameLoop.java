@@ -98,31 +98,41 @@ public class MainGameLoop {
 		// loader),
 		// new ModelTexture(loader.loadTexture("tree")));
 
+		// Create terrain.
+		backgroundTexture = new TerrainTexture(
+				loader.loadTexture("grassTerrain"));
+		rTexture = new TerrainTexture(loader.loadTexture("desert"));
+		gTexture = new TerrainTexture(loader.loadTexture("grassFlowers"));
+		bTexture = new TerrainTexture(loader.loadTexture("path"));
+		texturePack = new TerrainTexturePack(backgroundTexture, rTexture,
+				gTexture, bTexture);
+		blendMap = new TerrainTexture(loader.loadTexture("blendMap"));
+		terrain = new Terrain(0, -1, loader, texturePack, blendMap,
+				"heightmap");
+		// terrain2 = new Terrain(-1, -1, loader, texturePack, blendMap,
+		// "heightmap");
+		// terrain3 = new Terrain(0, 0, loader, texturePack, blendMap,
+		// "heightmap");
+		// terrain4 = new Terrain(-1, 0, loader, texturePack, blendMap,
+		// "heightmap");
+
 		// Create Entity with TexturedModel.
 		entities = new ArrayList<Entity>();
 		Random random = new Random();
+		float x, y, z;
 		for (int i = 0; i < 500; i++) {
-			entities.add(new Entity(grass,
-					new Vector3f(random.nextFloat() * 800 - 400, 0,
-							random.nextFloat() * -600),
-					0, 0, 0, 3));
-			entities.add(new Entity(fern,
-					new Vector3f(random.nextFloat() * 800 - 400, 0,
-							random.nextFloat() * -600),
-					0, 0, 0, 2));
+			x = random.nextFloat() * 800 - 400;
+			z = random.nextFloat() * -600;
+			y = terrain.getHeightOfTerrain(x, z);
+			entities.add(new Entity(grass, new Vector3f(x, y, z), 0, 0, 0, 1));
+			entities.add(new Entity(fern, new Vector3f(x, y, z), 0, 0, 0, 1));
 
-			entities.add(new Entity(bush0,
-					new Vector3f(random.nextFloat() * 800 - 400, 0,
-							random.nextFloat() * -600),
-					0, 0, 0, (1 + random.nextFloat())));
-			entities.add(new Entity(bush1,
-					new Vector3f(random.nextFloat() * 800 - 400, 0,
-							random.nextFloat() * -600),
-					0, 0, 0, (1 + random.nextFloat())));
-			entities.add(new Entity(bush2,
-					new Vector3f(random.nextFloat() * 800 - 400, 0,
-							random.nextFloat() * -600),
-					0, 0, 0, (1 + random.nextFloat())));
+			entities.add(new Entity(bush0, new Vector3f(x, y, z), 0, 0, 0,
+					(1 + random.nextFloat())));
+			entities.add(new Entity(bush1, new Vector3f(x, y, z), 0, 0, 0,
+					(1 + random.nextFloat())));
+			entities.add(new Entity(bush2, new Vector3f(x, y, z), 0, 0, 0,
+					(1 + random.nextFloat())));
 			// entities.add(new Entity(rock0, new Vector3f(random.nextFloat() *
 			// 800 - 400, 0, random.nextFloat() * -600),
 			// 0, 0, 0, 2));
@@ -153,24 +163,6 @@ public class MainGameLoop {
 		// Create lightsource.
 		light = new Light(new Vector3f(0, 100, 0), new Vector3f(1, 1, 1));
 
-		// Create terrain.
-		backgroundTexture = new TerrainTexture(
-				loader.loadTexture("grassTerrain"));
-		rTexture = new TerrainTexture(loader.loadTexture("desert"));
-		gTexture = new TerrainTexture(loader.loadTexture("grassFlowers"));
-		bTexture = new TerrainTexture(loader.loadTexture("path"));
-		texturePack = new TerrainTexturePack(backgroundTexture, rTexture,
-				gTexture, bTexture);
-		blendMap = new TerrainTexture(loader.loadTexture("blendMap"));
-		terrain = new Terrain(0, -1, loader, texturePack, blendMap,
-				"heightmap");
-		terrain2 = new Terrain(-1, -1, loader, texturePack, blendMap,
-				"heightmap");
-		terrain3 = new Terrain(0, 0, loader, texturePack, blendMap,
-				"heightmap");
-		terrain4 = new Terrain(-1, 0, loader, texturePack, blendMap,
-				"heightmap");
-
 		// Create the MasterRenderer
 		renderer = new MasterRenderer();
 
@@ -188,12 +180,12 @@ public class MainGameLoop {
 		// The actual game loop. Exit when user clicks 'x' button.
 		while (!Display.isCloseRequested()) {
 			camera.move();
-			player.move();
+			player.move(terrain);
 			renderer.processEntity(player);
 			renderer.processTerrain(terrain);
-			renderer.processTerrain(terrain2);
-			renderer.processTerrain(terrain3);
-			renderer.processTerrain(terrain4);
+			// renderer.processTerrain(terrain2);
+			// renderer.processTerrain(terrain3);
+			// renderer.processTerrain(terrain4);
 
 			// For each entity, for each frame, process the entity.
 			for (Entity entity : entities) {
