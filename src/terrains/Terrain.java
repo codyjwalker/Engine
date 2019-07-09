@@ -21,11 +21,10 @@ import toolbox.Maths;
 public class Terrain {
 
 	private static final float SIZE = 800f;
-	private static final float MAX_HEIGHT = 180f;
+	private static final float MAX_HEIGHT = 80f;
 	private static final float MAX_PIXEL_COLOR = 256f * 256f * 256f;
 
-	private float x;
-	private float z;
+	private float x, z;
 	private RawModel model;
 	private TerrainTexturePack texturePack;
 	private TerrainTexture blendMap;

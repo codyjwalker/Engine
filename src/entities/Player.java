@@ -42,15 +42,15 @@ public class Player extends Entity {
 		// Move the player by each amount.
 		super.increasePosition(dx, 0, dz);
 		// Work out players vertical position during jumps.
-		upwardsSpeed += GRAVITY * DisplayManager.getFrameTimeSeconds();
+		this.upwardsSpeed += GRAVITY * DisplayManager.getFrameTimeSeconds();
 		super.increasePosition(0,
-				upwardsSpeed * DisplayManager.getFrameTimeSeconds(), 0);
+				this.upwardsSpeed * DisplayManager.getFrameTimeSeconds(), 0);
 		// Get height of terrainMap to move Player to appropriate height.
 		float terrainHeight = terrain.getHeightOfTerrain(super.getPosition().x,
 				super.getPosition().z);
 
 		if (super.getPosition().y < terrainHeight) {
-			upwardsSpeed = 0;
+			this.upwardsSpeed = 0;
 			this.isAirborne = false;
 			super.getPosition().y = terrainHeight;
 		}

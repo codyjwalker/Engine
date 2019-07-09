@@ -33,9 +33,9 @@ public class SkyboxShader extends ShaderProgram {
 		matrix.m30 = 0;
 		matrix.m31 = 0;
 		matrix.m32 = 0;
-		rotation += ROTATION_SPEED * DisplayManager.getFrameTimeSeconds();
-		Matrix4f.rotate((float) Math.toRadians(rotation), new Vector3f(0, 1, 0),
-				matrix, matrix);
+		this.rotation += ROTATION_SPEED * DisplayManager.getFrameTimeSeconds();
+		Matrix4f.rotate((float) Math.toRadians(this.rotation),
+				new Vector3f(0, 1, 0), matrix, matrix);
 		super.loadMatrix(this.location_viewMatrix, matrix);
 	}
 

@@ -24,6 +24,8 @@ import terrains.Terrain;
 import textures.ModelTexture;
 import textures.TerrainTexture;
 import textures.TerrainTexturePack;
+import toolbox.MousePicker;
+import toolbox.UpdatedMousePicker;
 
 /*
  * File: MainGameLoop.java Purpose: Contains the main() method, inside of
@@ -55,6 +57,10 @@ public class MainGameLoop {
 	private static List<GUITexture> guis;
 	private static GUITexture gui, gui2;
 	private static GUIRenderer guiRenderer;
+	private static UpdatedMousePicker picker;
+
+	private static Entity lampEntity;
+	private static Light light;
 
 	// Initializes all objects needed for rendering.
 	private static void init() {
@@ -131,7 +137,6 @@ public class MainGameLoop {
 		// terrain4 = new Terrain(-1, 0, loader, texturePack, blendMap,
 		// "heightmap");
 
-
 		// Create Entities with TexturedModels.
 		entities = new ArrayList<Entity>();
 		Random random = new Random();
@@ -140,11 +145,11 @@ public class MainGameLoop {
 			x = random.nextFloat() * 800 - 400;
 			z = random.nextFloat() * -600;
 			y = terrain.getHeightOfTerrain(x, z);
-			entities.add(new Entity(grass, new Vector3f(x, y, z), 0, 0, 0, 3));
+			entities.add(new Entity(grass, new Vector3f(x, y, z), 0, 0, 0, 1));
 			x = random.nextFloat() * 800 - 400;
 			z = random.nextFloat() * -600;
 			y = terrain.getHeightOfTerrain(x, z);
-			entities.add(new Entity(fern, new Vector3f(x, y, z), 0, 0, 0, 2,
+			entities.add(new Entity(fern, new Vector3f(x, y, z), 0, 0, 0, 1,
 					random.nextInt(4)));
 			x = random.nextFloat() * 800 - 400;
 			z = random.nextFloat() * -600;
@@ -204,7 +209,7 @@ public class MainGameLoop {
 		lights.add(light1);
 		lights.add(light2);
 		lights.add(light3);
-		lights.add(light4);
+		// lights.add(light4);
 		// Lamp entities.
 		entities.add(
 				new Entity(lamp, new Vector3f(185, -4.7f, -293), 0, 0, 0, 1));
@@ -212,8 +217,7 @@ public class MainGameLoop {
 				new Entity(lamp, new Vector3f(370, 4.2f, -300), 0, 0, 0, 1));
 		entities.add(
 				new Entity(lamp, new Vector3f(293, -6.8f, -305), 0, 0, 0, 1));
-		
-		
+
 		// Create the MasterRenderer
 		renderer = new MasterRenderer(loader);
 
@@ -233,6 +237,18 @@ public class MainGameLoop {
 		guis.add(gui2);
 		guiRenderer = new GUIRenderer(loader);
 
+		// Create MousePicker.
+		// picker = new UpdatedMousePicker(camera,
+		// renderer.getProjectionMatrix());
+		picker = new UpdatedMousePicker(camera, renderer.getProjectionMatrix(),
+				terrain);
+		lampEntity = (new Entity(lamp, new Vector3f(293, -6.8f, -305), 0, 0, 0,
+				1));
+		entities.add(lampEntity);
+		light = (new Light(new Vector3f(293, 7, -305), new Vector3f(0, 2, 2),
+				new Vector3f(1, 0.01f, 0.002f)));
+		lights.add(light);
+
 	}
 
 	public static void main(String[] args) {
@@ -243,6 +259,16 @@ public class MainGameLoop {
 			camera.move();
 			player.move(terrain);
 			// TODO: test which terrain player is standing on.
+
+			// Update Picker every frame after camera has moved.
+			picker.update();
+			Vector3f terrainPoint = picker.getCurrentTerrainPoint();
+			if (terrainPoint != null) {
+				lampEntity.setPosition(terrainPoint);
+				light.setPosition(new Vector3f(terrainPoint.x, terrainPoint.y,
+						terrainPoint.z));
+			}
+
 			renderer.processEntity(player);
 			renderer.processTerrain(terrain);
 			// renderer.processTerrain(terrain2);
